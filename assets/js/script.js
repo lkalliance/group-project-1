@@ -1,5 +1,9 @@
 const ourProject = "Moonfish";
 
+// Extend Day.js to include time zone support
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
+
 $( document ).ready( function () {
 
     // DECLARE VARIABLES FOR DOM CONTAINERS
@@ -21,8 +25,8 @@ $( document ).ready( function () {
 
     // VARIABLES FOR TESTING SETTINGS ON MAP SIZE
     let zoom = 12;
-    let height = 400; 
-    let width = 400;
+    let height = 300; 
+    let width = 300;
 
 
     initialize();
@@ -37,18 +41,23 @@ $( document ).ready( function () {
             e.preventDefault();
             console.log("The search button was clicked!");
 
-            // Make sure that there is actual text in the search field
+            // make sure that there is actual text in the search field
             if ( jSearchInput.val().trim() == "" ) {
                 console.log("The search field was empty!");
                 return;
             }
 
-            // Start the search process: get latitude and longitude
+            // empty out the containers
+            clearTheDecks();
+            // start the search process: get latitude and longitude
             getLatLon( jSearchInput.val() );
         })
 
         // Draw areas of the page
         drawSavedSearches();
+
+        // Save myself some time with an auto search
+        getLatLon("Prior Lake");
     }
 
 
@@ -70,28 +79,97 @@ $( document ).ready( function () {
             .then( function( data ) {
                 // grab the specific data from the returned array
                 let location = data.results[0];
-                console.log( {location} );
                 // save the latitude and longitude
                 let lat = location.lat;
                 let lon = location.lon;
                 // now call the other functions
-                getSolunar(lat, lon);
-                getWeather(lat, lon);
-                createMapURL(lat, lon);
+                getWeather( lat, lon );
+                createMapURL( lat, lon );
+                // drawConfirmationModal( jAboutLocContainer, location );  // switch to actual modal container
             })
             .catch( function( err ) {
                 console.log(err);
             });      
     }
 
-    function getSolunar ( lat, lon ) {
-        // This function gets the data on seven days of solunar data
-        console.log("Getting solunar data for latitude " + lat + ", longitude " + lon);
+    function getWeather ( lat, lon ) {
+        // This function gets the data on weather
+        // parameters "lat" and "lon" are latitude and longitude
+
+        // first get the weather
+        let weatherCall = "https://api.openweathermap.org/data/3.0/onecall?&lat=" + lat + "&lon=" + lon + "&units=imperial&exclude=minutely" + weatherAPI;
+
+        fetch( weatherCall )
+            .then(function( response ) {
+                return response.json();
+            })
+            .then( function( weatherData ) {
+
+                // construct the weather portion of the object
+                let dataCollect = {
+                    weather: weatherData,
+                    solunar: []
+                };
+                
+                // now send this along to collect the solunar data:
+                let offset = weatherData.timezone_offset / 3600;
+                let dToday = dayjs();
+                getSolunar ( lat, lon, offset, dToday, dataCollect );
+
+            })
+            .catch( function( err ) {
+                console.log( err );
+            });
     }
 
-    function getWeather ( lat, lon ) {
-        // This function gets the data on seven days of weather data
-        console.log("Getting weather data for latitude " + lat + ", longitude " + lon);
+    function getSolunar( lat, lon, offset, dDate, results ) {
+        // This function makes recursive calls to get solunar data
+        // parameters "lat" and "lon" are geographic coordinates
+        // parameter "offset" is the offset in hours from GMT
+        // parameter "dDate" is the date we're searching on
+        // paraemter "results" is the object to pass along to the renderer
+
+        solunarCall = "https://api.solunar.org/solunar/" + lat + "," + lon + "," + dDate.format("YYYYMMDD") + "," + offset;
+
+        fetch( solunarCall )
+            .then(function( response ) {
+                return response.json();
+            })
+            .then(function ( solData ) {
+                // package the results
+                let thisDay = {
+                    date: dDate.format("MMM D"),
+                    data: solData
+                };
+                // package up additional references
+                let passAlong = {
+                    lat: lat,
+                    lon: lon,
+                    offset: offset
+                }
+                // send it to the function compiling the array
+                constructSolunar( thisDay, results, passAlong );
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+        
+    }
+
+    function constructSolunar ( next, results, reference ) {
+        // This function assembles the solunar results
+        // parameter "next" is the most recent day collected
+        // parameter "results" is the object to pass along
+
+        results.solunar.push(next);
+        // Do we have enough? If yes, send it all to be rendered
+        if (results.solunar.length == 7) drawForecast(jForecastContainer, results);
+        // If no, increment the day and go get the next one
+        else {
+            let dToday = dayjs();
+            let nextDay = dToday.add(results.solunar.length, "day");
+            getSolunar(reference.let, reference.lon, reference.offset, nextDay, results);
+        }       
     }
 
     function createMapURL ( lat, lon ) {
@@ -104,6 +182,14 @@ $( document ).ready( function () {
         let jMapTile = $( "<img>" );
         jMapTile.attr( "src", mapURL );
         jAboutLocContainer.append( jMapTile );
+    }
+
+
+    // UTILITIES
+
+    function clearTheDecks() {
+        // This function clears out all dynamic content
+        jAboutLocContainer.empty();
     }
     
 })
@@ -136,130 +222,32 @@ function drawMainDisplay ( jContainer, info ) {
     console.log("Drawing the main info panel");
 }
 
-function drawForecast ( jContainer, info ) {
+function drawForecast ( jContainer, data ) {
     // This function draws the forecast panel
     // parameter "jContainer" is the container to fill
-    // parameter "info" is the data to use
+    // parameter "weather" is the weather data to use
+    // parameter "solunar" is the solunar data to use
+
+    console.log("Drawing the forecast");
+    // make SURE that the array is sorted correctly
+    data.solunar.sort( function(a, b) {
+        let aDate = dayjs(a.date);
+        let bDate = dayjs(b.date);
+        return a - b;
+    })
+
+    // iterate over seven days, build cards, and insert
+    let jCard, jTitle;
+    for ( let i = 0; i < data.solunar.length; i++ ) {
+        console.log("Creating a card");
+        // create the card
+        jCard = $("<div>");
+        jCard.addClass("forecast-card");
+        jTitle = $("<h3>");
+        if ( i == 0 ) jTitle.text("Today");
+        else if ( i == 1 ) jTitle.text("Tomorrow");
+        else jTitle.text(data.solunar[i].date);
+        jCard.append( jTitle );
+        jContainer.append( jCard );
+    }
 }
-
-
-
-
-
-
-
-
-
-
-/* btn.addEventListener("click", function(e) {
-    e.preventDefault();
-
-    if (txt.value == "") return;
-
-    let requestOptions = {
-        method: 'GET'
-      };
-    let place = "https://api.geoapify.com/v1/geocode/search?text=" + txt.value + "&format=json&apiKey=137d269d6c174878a5fba2984b37e8d3";
-
-    fetch(place, requestOptions)
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data){
-        
-        emptyThis(readout);
-
-        let geoheader = document.createElement("h2");
-        geoheader.textContent = "From Geoapify:";
-        readout.appendChild(geoheader);
-
-        let location = data.results[0];
-        console.log({location});
-        let lat = location.lat;
-        let lon = location.lon;
-        
-        let data1 = document.createElement("div");
-        let data2 = document.createElement("div");
-        let data3 = document.createElement("div");
-        let data4 = document.createElement("div");
-
-        data1.textContent = "location: " + location.city + ", " + location.country;
-        data2.textContent = "Result type: " + location.category;
-        data3.textContent = "latitude: " + location.lat;
-        data4.textContent = "longitude: " + location.lon;
-
-        readout.appendChild(data1);
-        readout.appendChild(data2);
-        readout.appendChild(data3);
-        readout.appendChild(data4);
-
-        let getMap = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=800&height=600&center=lonlat:" + lon + "," + lat + "&zoom=12&apiKey=137d269d6c174878a5fba2984b37e8d3";
-
-        readout.style.backgroundImage = "url(" + getMap + ")";
-
-        let getSolunar = "https://api.solunar.org/solunar/" + lat + "," + lon + ",20220123,-6";
-
-        // let getWeather = "https://api.openweathermap.org/data/3.0/onecall?" + latlon + APIunits + APIexclude + APIkey;
-
-        let getWeather = "https://api.openweathermap.org/data/3.0/onecall?&lat=" + lat + "&lon=" + lon + "&units=imperial&exclude=minutely&appid=7897ccda0965301a098fbfd75fe1b4aa";
-
-
-        fetch(getMap)
-            .then(function(response) {
-                return response
-            })
-
-        fetch(getSolunar)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(function(data) {
-
-                let solunarheader = document.createElement("h2");
-                solunarheader.textContent = "From Solunar:";
-                readout.appendChild(solunarheader);
-                let data1 = document.createElement("div");
-                let data2 = document.createElement("div");
-                let data3 = document.createElement("div");
-                let data4 = document.createElement("div");
-                
-                data1.textContent = "Major: " + data.major1Start + " to " + data.major1Stop;
-                data2.textContent = "Major: " + data.major2Start + " to " + data.major2Stop;
-                data3.textContent = "Minor: " + data.minor1Start + " to " + data.minor1Stop;
-                data4.textContent = "Minor: " + data.minor2Start + " to " + data.minor2Stop;
-                
-                readout.appendChild(data1);
-                readout.appendChild(data2);
-                readout.appendChild(data3);
-                readout.appendChild(data4);
-            })
-
-            fetch(getWeather)
-              .then(function(response) {
-                  return response.json();
-              })
-              .then(function(data) {
-                  console.log(data);
-
-                  let weatherheader = document.createElement("h2");
-                    weatherheader.textContent = "From OpenWeatherMap:";
-                    readout.appendChild(weatherheader);
-                    console.log(lat);
-                    console.log(lon);
-                    console.log(ourProject);
-
-                    readout.appendChild(document.createTextNode("Currently: " + data.current.temp + "°F, feels like " + data.current.feels_like + "°F. wind is " + data.current.wind_speed + "MPH, " + data.current.clouds + "% cloud cover."));
-
-                    let hourly = "Hourly: ";
-                    for (let i = 0; i < data.hourly.length; i++ ) {
-                        hourly += data.hourly[i].temp + "°F, ";
-                        hourly += data.hourly[i].wind_speed + " MPH, ";
-                        hourly += data.hourly[i].clouds + "% cloud cover";
-                        if (i < (data.hourly.length - 1)) hourly += " / ";
-                    }
-
-                    readout.appendChild(document.createTextNode(hourly));
-              })
-      })
-
-}) */
