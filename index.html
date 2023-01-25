@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./assets/css/styles.css" />
+    <link rel="stylesheet" href="./assets/css/mgplus.css" />
     <title>Document</title>
   </head>
   <body>
@@ -24,7 +25,37 @@
       <div id="about"></div>
       <div id="forecast"></div>
     </section>
+    <button data-toggle="modal" data-target="modal-1">Show modal</button>
+    <div class="mg-modal" id="modal-1">
+      <div class="mg-modal--content mg-container">
+        <h3>
+          Modal Dialog
+          
+        </h3>
+        <div>
+          <p>
+            This is a modal check wow. You can do the following things with it:
+          </p>
+          <ul>
+            <li>
+              <strong>Read:</strong> modal windows will probably tell you
+              something important so don't forget to read what they say.
+            </li>
+            <li>
+              <strong>Look:</strong> a modal window enjoys a certain kind of
+              attention; just look at it and appreciate its presence.
+            </li>
+            <li>
+              <strong>Close:</strong> click on the button on top to close modal
+              the modal.
+            </li>
+          </ul>
+          <button><span data-action="close">Check</span></button>
+        </div>
+      </div>
+    </div>
 
+    <script src="./assets/js/mgplus.js"></script>
     <script src="./assets/js/jQuery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
