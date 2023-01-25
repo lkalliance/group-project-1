@@ -55,9 +55,6 @@ $( document ).ready( function () {
 
         // Draw areas of the page
         drawSavedSearches();
-
-        // Save myself some time with an auto search
-        // getLatLon("Prior Lake");
     }
 
 
@@ -137,61 +134,13 @@ $( document ).ready( function () {
             solunarCalls.push(thisCall);
         }
 
-        Promise.all( solunarCalls.map(call => fetch(call)))
-            .then(
-                responses => Promise.all(responses.map(response => response.json()))
-            )
-            .then(
-                (datas => results.solunar = datas)
-            )
-
-            // .then( function(response) {
-            //     console.log(response.url.split(",")[2]);
-            //     //return { 
-            //     //    date: response.url.split(",")[2],
-            //      //   data: response.json()
-            //      return response;
-                
-            // })
-            // .then( function(data) {
-            //     console.log(data);
-            //    // results.solunar.push(data);
-            //    // console.log(results);
-            // })
-            // .catch( function(err) {
-            //     console.log(err);
-            // }))
+        Promise.all( solunarCalls.map( call => fetch( call )))
+            .then( responses => Promise.all( responses.map( response => response.json())))
+            .then((datas => results.solunar=datas))
         
-
         console.log(results);
 
-        //drawForecast( jForecastContainer, results );
-
-        /* solunarCall = "https://api.solunar.org/solunar/" + lat + "," + lon + "," + dDate.format("YYYYMMDD") + "," + offset;
-
-        fetch( solunarCall )
-            .then(function( response ) {
-                return response.json();
-            })
-            .then(function ( solData ) {
-                // package the results
-                let thisDay = {
-                    date: dDate.format("MMM D"),
-                    data: solData
-                };
-                // package up additional references
-                let passAlong = {
-                    lat: lat,
-                    lon: lon,
-                    offset: offset
-                }
-                // send it to the function compiling the array
-                constructSolunar( thisDay, results, passAlong );
-            })
-            .catch(function(err) {
-                console.log(err);
-            }); */
-        
+        drawForecast( jForecastContainer, results );
     }
 
     function constructSolunar ( next, results, reference ) {
@@ -244,31 +193,31 @@ function drawSavedSearches ( jContainer ) {
     console.log("Drawing the saved searches");
 }
 
-function drawConfirmationModal ( jContainer, info ) {
+function drawConfirmationModal ( jContainer, confirmationInfo ) {
     // This function draws the confirmation modal
     // parameter "jContainer" is the container to fill
-    // parameter "info" is the data to use
+    // parameter "confirmationInfo" is the data to use
 
     console.log("Drawing the confirmation modal");
+    console.log({ confirmationInfo });
 }
 
-function drawMainDisplay ( jContainer, info ) {
+function drawMainDisplay ( jContainer, mainDisplayInfo ) {
     // This function draws the main info panel
     // parameter "jContainer" is the container to fill
-    // parameter "info" is the data to use
+    // parameter "mainDisplayInfo" is the data to use
 
     console.log("Drawing the main info panel");
-    console.log(info);
+    console.log({ mainDisplayInfo });
 }
 
-function drawForecast ( jContainer, data ) {
+function drawForecast ( jContainer, forecastInfo ) {
     // This function draws the forecast panel
     // parameter "jContainer" is the container to fill
-    // parameter "weather" is the weather data to use
-    // parameter "solunar" is the solunar data to use
+    // parameter "forecastInfo" is the data needed to construct
 
     console.log("Drawing the forecast");
-    console.log(data);
+    console.log({ forecastInfo });
     // make SURE that the array is sorted correctly
     // data.solunar.sort( function(a, b) {
     //     let aDate = dayjs(a.date);
@@ -278,15 +227,17 @@ function drawForecast ( jContainer, data ) {
 
     // iterate over seven days, build cards, and insert
     let jCard, jTitle;
-    for ( let i = 0; i < data.solunar.length; i++ ) {
-        console.log("Creating a card");
+    let dToday = dayjs();
+    for ( let i = 0; i < forecastInfo.solunar.length; i++ ) {
+        // calculate the day
+        
         // create the card
         jCard = $("<div>");
         jCard.addClass("forecast-card");
         jTitle = $("<h3>");
         if ( i == 0 ) jTitle.text("Today");
         else if ( i == 1 ) jTitle.text("Tomorrow");
-        else jTitle.text(data.solunar[i].date);
+        else jTitle.text(forecastInfo.solunar[i]);
         jCard.append( jTitle );
         jContainer.append( jCard );
     }
