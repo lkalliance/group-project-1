@@ -57,7 +57,7 @@ $( document ).ready( function () {
         drawSavedSearches();
 
         // Save myself some time with an auto search
-        getLatLon("Prior Lake");
+        // getLatLon("Prior Lake");
     }
 
 
@@ -85,6 +85,7 @@ $( document ).ready( function () {
                 // now call the other functions
                 getWeather( lat, lon );
                 createMapURL( lat, lon );
+                drawMainDisplay( jAboutLocContainer, data.results[0] );
                 // drawConfirmationModal( jAboutLocContainer, location );  // switch to actual modal container
             })
             .catch( function( err ) {
@@ -190,8 +191,8 @@ $( document ).ready( function () {
     function clearTheDecks() {
         // This function clears out all dynamic content
         jAboutLocContainer.empty();
+        jForecastContainer.empty();
     }
-    
 })
 
 
@@ -220,6 +221,7 @@ function drawMainDisplay ( jContainer, info ) {
     // parameter "info" is the data to use
 
     console.log("Drawing the main info panel");
+    console.log(info);
 }
 
 function drawForecast ( jContainer, data ) {
