@@ -114,23 +114,60 @@ $( document ).ready( function () {
                 
                 // now send this along to collect the solunar data:
                 let offset = weatherData.timezone_offset / 3600;
-                let dToday = dayjs();
-                getSolunar ( lat, lon, offset, dToday, dataCollect );
-
+                getSolunar ( lat, lon, offset, dataCollect );
             })
             .catch( function( err ) {
                 console.log( err );
             });
     }
 
-    function getSolunar( lat, lon, offset, dDate, results ) {
+    function getSolunar( lat, lon, offset, results ) {
         // This function makes recursive calls to get solunar data
         // parameters "lat" and "lon" are geographic coordinates
         // parameter "offset" is the offset in hours from GMT
         // parameter "dDate" is the date we're searching on
         // paraemter "results" is the object to pass along to the renderer
 
-        solunarCall = "https://api.solunar.org/solunar/" + lat + "," + lon + "," + dDate.format("YYYYMMDD") + "," + offset;
+        let solunarCalls = [];
+        let thisCall, dDate;
+        let dToday = dayjs();
+        for ( let i = 0; i < 7; i++ ) {
+            dDate = dToday.add(i, "day");
+            thisCall = "https://api.solunar.org/solunar/" + lat + "," + lon + "," + dDate.format("YYYYMMDD") + "," + offset;
+            solunarCalls.push(thisCall);
+        }
+
+        Promise.all( solunarCalls.map(call => fetch(call)))
+            .then(
+                responses => Promise.all(responses.map(response => response.json()))
+            )
+            .then(
+                (datas => results.solunar = datas)
+            )
+
+            // .then( function(response) {
+            //     console.log(response.url.split(",")[2]);
+            //     //return { 
+            //     //    date: response.url.split(",")[2],
+            //      //   data: response.json()
+            //      return response;
+                
+            // })
+            // .then( function(data) {
+            //     console.log(data);
+            //    // results.solunar.push(data);
+            //    // console.log(results);
+            // })
+            // .catch( function(err) {
+            //     console.log(err);
+            // }))
+        
+
+        console.log(results);
+
+        //drawForecast( jForecastContainer, results );
+
+        /* solunarCall = "https://api.solunar.org/solunar/" + lat + "," + lon + "," + dDate.format("YYYYMMDD") + "," + offset;
 
         fetch( solunarCall )
             .then(function( response ) {
@@ -153,7 +190,7 @@ $( document ).ready( function () {
             })
             .catch(function(err) {
                 console.log(err);
-            });
+            }); */
         
     }
 
@@ -231,12 +268,13 @@ function drawForecast ( jContainer, data ) {
     // parameter "solunar" is the solunar data to use
 
     console.log("Drawing the forecast");
+    console.log(data);
     // make SURE that the array is sorted correctly
-    data.solunar.sort( function(a, b) {
-        let aDate = dayjs(a.date);
-        let bDate = dayjs(b.date);
-        return a - b;
-    })
+    // data.solunar.sort( function(a, b) {
+    //     let aDate = dayjs(a.date);
+    //     let bDate = dayjs(b.date);
+    //     return a - b;
+    // })
 
     // iterate over seven days, build cards, and insert
     let jCard, jTitle;
