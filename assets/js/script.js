@@ -56,9 +56,24 @@ $( document ).ready( function () {
 
         jConfirmationModal.on("click", "button", function(e) {
             // This listener is on the confirmation modal
-            e.preventDefault();
-            console.log(e.currentTarget.dataset.correct);
 
+            e.preventDefault();
+            if ( e.currentTarget.dataset.correct == "yes" ) {
+                // continue the API process
+                let latlon = e.currentTarget.dataset.latlon;
+                getWeather( latlon.split(",")[0], latlon.split(",")[1] );
+                // prepare data to send along to draw the main display
+                let data = { name: jConfirmationModal.find("h3")[0].textContent }, sections;
+                let items = jConfirmationModal.find("li");
+                Object.entries(items).forEach(([key, value]) => {
+                    if (!isNaN(parseInt(key))) {
+                        sections = value.textContent.split(": ");
+                        data[sections[0]] = sections[1];
+                    }
+                })
+                drawMainDisplay( jAboutLocContainer, data, mapURL );
+            }
+            // hide the confirmation modal
             jConfirmationModal.removeClass("mg-show");
         });
 
@@ -67,7 +82,6 @@ $( document ).ready( function () {
 
         getLatLon("Prior Lake");
     }
-
 
     // API FUNCTIONS
 
@@ -93,8 +107,8 @@ $( document ).ready( function () {
                 // update the map URL
                 mapURL = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=" + width + "&height=" + height + "&center=lonlat:" + lon + "," + lat + "&zoom=" + zoom + geoAPI;
                 // now call the other functions
-                getWeather( lat, lon );
-                drawConfirmationModal( jConfirmationModal, location, mapURL );
+                // getWeather( lat, lon );
+                drawConfirmationModal( jConfirmationModal, location, mapURL, location );
             })
             .catch( function( err ) {
                 console.log(err);
@@ -149,39 +163,8 @@ $( document ).ready( function () {
             .then( responses => Promise.all( responses.map( response => response.json())))
             .then((datas => results.solunar=datas))
         
-        console.log(results);
-
         drawForecast( jForecastContainer, results );
     }
-
-    function constructSolunar ( next, results, reference ) {
-        // This function assembles the solunar results
-        // parameter "next" is the most recent day collected
-        // parameter "results" is the object to pass along
-
-        results.solunar.push(next);
-        // Do we have enough? If yes, send it all to be rendered
-        if (results.solunar.length == 7) drawForecast(jForecastContainer, results);
-        // If no, increment the day and go get the next one
-        else {
-            let dToday = dayjs();
-            let nextDay = dToday.add(results.solunar.length, "day");
-            getSolunar(reference.let, reference.lon, reference.offset, nextDay, results);
-        }       
-    }
-
-    function createMapURL ( lat, lon ) {
-        // This function creates the URL to use to get the static map
-        console.log("Creating the map URL for latitude " + lat + ", longitude " + lon);
-
-        mapURL = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=" + width + "&height=" + height + "&center=lonlat:" + lon + "," + lat + "&zoom=" + zoom + geoAPI;
-
-        // drop it on the page for now, so we can see it
-        let jMapTile = $( "<img>" );
-        jMapTile.attr( "src", mapURL );
-        jAboutLocContainer.append( jMapTile );
-    }
-
 
     // UTILITIES
 
@@ -209,6 +192,7 @@ function drawConfirmationModal ( jContainer, confirmationInfo, map ) {
     // parameter "jContainer" is the modal
     // parameter "confirmationInfo" is the data to use
     // parameter "map" is the url for the map tile
+    // parameters "locationInfo" is the return from the latlon query
 
     console.log("Drawing the confirmation modal");
     console.log({ confirmationInfo });
@@ -226,9 +210,9 @@ function drawConfirmationModal ( jContainer, confirmationInfo, map ) {
     // write the city name
     jTitle.text(confirmationInfo.city);
     // populate the list with stuff
-    jCounty.text("County: " + confirmationInfo.county);
-    jState.text("State: " + confirmationInfo.state);
-    jCountry.text("Country: " + confirmationInfo.country);
+    jCounty.text("county: " + confirmationInfo.county);
+    jState.text("state: " + confirmationInfo.state);
+    jCountry.text("country: " + confirmationInfo.country);
     if ( confirmationInfo.country_code == "us" ) {
         // if the country is US, add the county and state
         jList.append(jCounty);
@@ -240,14 +224,18 @@ function drawConfirmationModal ( jContainer, confirmationInfo, map ) {
     // append the map and the list
     jBody.append(jMap);
     jBody.append(jList);
+    // encode the yes-button with the data to pass on
+    jContainer.find("button").attr("data-latlon", (confirmationInfo.lat + "," + confirmationInfo.lon));
+    jContainer.find("button").attr("data-place", jTitle.text());
     // show the modal
     jContainer.addClass("mg-show");
 }
 
-function drawMainDisplay ( jContainer, mainDisplayInfo ) {
+function drawMainDisplay ( jContainer, mainDisplayInfo, map ) {
     // This function draws the main info panel
     // parameter "jContainer" is the container to fill
     // parameter "mainDisplayInfo" is the data to use
+    // parameter "map" is the URL for the map tile
 
     console.log("Drawing the main info panel");
     console.log({ mainDisplayInfo });
