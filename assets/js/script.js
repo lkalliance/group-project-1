@@ -79,8 +79,6 @@ $( document ).ready( function () {
 
         // Draw areas of the page
         drawSavedSearches();
-
-        getLatLon("Prior Lake");
     }
 
     // API FUNCTIONS
