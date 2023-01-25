@@ -11,6 +11,7 @@ $( document ).ready( function () {
     const jDisplayContainer = $("#display");
     const jAboutLocContainer = $("#about");
     const jForecastContainer = $("#forecast");
+    const jConfirmationModal = $("#confirmation-modal");
 
     // DECLARE VARIABLES FOR BUTTONS AND INPUTS
     const jSearchInput = $("#searchInput");
@@ -24,9 +25,9 @@ $( document ).ready( function () {
     let mapURL;
 
     // VARIABLES FOR TESTING SETTINGS ON MAP SIZE
-    let zoom = 12;
-    let height = 300; 
-    let width = 300;
+    let zoom = 10;
+    let height = 200; 
+    let width = 200;
 
 
     initialize();
@@ -53,8 +54,18 @@ $( document ).ready( function () {
             getLatLon( jSearchInput.val() );
         })
 
+        jConfirmationModal.on("click", "button", function(e) {
+            // This listener is on the confirmation modal
+            e.preventDefault();
+            console.log(e.currentTarget.dataset.correct);
+
+            jConfirmationModal.removeClass("mg-show");
+        });
+
         // Draw areas of the page
         drawSavedSearches();
+
+        getLatLon("Prior Lake");
     }
 
 
@@ -79,11 +90,11 @@ $( document ).ready( function () {
                 // save the latitude and longitude
                 let lat = location.lat;
                 let lon = location.lon;
+                // update the map URL
+                mapURL = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=" + width + "&height=" + height + "&center=lonlat:" + lon + "," + lat + "&zoom=" + zoom + geoAPI;
                 // now call the other functions
                 getWeather( lat, lon );
-                createMapURL( lat, lon );
-                drawMainDisplay( jAboutLocContainer, data.results[0] );
-                // drawConfirmationModal( jAboutLocContainer, location );  // switch to actual modal container
+                drawConfirmationModal( jConfirmationModal, location, mapURL );
             })
             .catch( function( err ) {
                 console.log(err);
@@ -193,13 +204,44 @@ function drawSavedSearches ( jContainer ) {
     console.log("Drawing the saved searches");
 }
 
-function drawConfirmationModal ( jContainer, confirmationInfo ) {
+function drawConfirmationModal ( jContainer, confirmationInfo, map ) {
     // This function draws the confirmation modal
-    // parameter "jContainer" is the container to fill
+    // parameter "jContainer" is the modal
     // parameter "confirmationInfo" is the data to use
+    // parameter "map" is the url for the map tile
 
     console.log("Drawing the confirmation modal");
     console.log({ confirmationInfo });
+
+    // collect and create some DOM nodes
+    let jTitle = $("#confirmation-modal .mg-container h3");
+    let jBody = $("#confirmation-modal .modal-content");
+    let jList = $("<ul>");
+    let jCounty = $("<li>");
+    let jState = $("<li>");
+    let jCountry = $("<li>");
+    let jMap = $("<img>");
+    // clear out the info from last time
+    jBody.empty();
+    // write the city name
+    jTitle.text(confirmationInfo.city);
+    // populate the list with stuff
+    jCounty.text("County: " + confirmationInfo.county);
+    jState.text("State: " + confirmationInfo.state);
+    jCountry.text("Country: " + confirmationInfo.country);
+    if ( confirmationInfo.country_code == "us" ) {
+        // if the country is US, add the county and state
+        jList.append(jCounty);
+        jList.append(jState);
+    }
+    else jList.append(jCountry);
+    // set up the map
+    jMap.attr("src", map);
+    // append the map and the list
+    jBody.append(jMap);
+    jBody.append(jList);
+    // show the modal
+    jContainer.addClass("mg-show");
 }
 
 function drawMainDisplay ( jContainer, mainDisplayInfo ) {

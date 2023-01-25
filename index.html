@@ -25,32 +25,19 @@
       <div id="about"></div>
       <div id="forecast"></div>
     </section>
-    <button data-toggle="modal" data-target="modal-1">Show modal</button>
-    <div class="mg-modal" id="modal-1">
+    <button data-toggle="modal" data-target="confirmation-modal">Show modal</button>
+    <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
         <h3>
-          Modal Dialog
-          
+          (Title of modal here)
+          <span class="mg-close mg-right" data-action="close"></span>
         </h3>
         <div>
-          <p>
-            This is a modal check wow. You can do the following things with it:
-          </p>
-          <ul>
-            <li>
-              <strong>Read:</strong> modal windows will probably tell you
-              something important so don't forget to read what they say.
-            </li>
-            <li>
-              <strong>Look:</strong> a modal window enjoys a certain kind of
-              attention; just look at it and appreciate its presence.
-            </li>
-            <li>
-              <strong>Close:</strong> click on the button on top to close modal
-              the modal.
-            </li>
-          </ul>
-          <button><span data-action="close">Check</span></button>
+          <div class="modal-content">
+            (Content of modal here: map, info about search results)
+          </div>
+          <button data-correct="yes"><span>Yes, this is correct</span></button>
+          <button data-correct="no"><span>No, this isn't correct</span></button>
         </div>
       </div>
     </div>
