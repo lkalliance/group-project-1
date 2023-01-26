@@ -2,18 +2,26 @@
 Moonfish group project
 
 
-OK, I have named the repo group-project-1, which should give you that name in your file system when you clone it...after you've all cloned it I'll rename the repository. So then on your local it's the logically-named group-project-1, and up here on github it'll be Project Moonfish.
+## UPDATE:
 
-So a reminder on to-dos:
+OK, guys, here is how the code's workflow goes. Note that the complete "Search-to-result" flow is: get Location Data -> get Weather Report -> get Solunar Data
 
-(1) All of us get an api key for weather (which you probably already have) and for geoapify.com
-(2) Familiarize yourself with those APIs as best as you can
-(3) Familiarize yourself with the Milligram* CSS library, AND with doing modals with or Milligram (I have a feeling Milligram doesn't have them).
+### Initialize page
+--Add listeners
+--Draw the saved searches
+### When the user does a search
+--Get location data
+--Show confirmation modal. If the user says "No this isn't it," then end there. Otherwise...
+--Get weather data
+--Get solunar data
+--Do three things simultaneously: draw the main info panel, draw the forecast panel, save the search
 
-Good luck on the weather project!
+If the user clicks on a saved search, it's the same thing, only we start at "Get Weather Data," because the saved search will have all the info we need from the first two items.
 
 
 
+
+## PREVIOUS:
 
 (1) API's: Clean up the logic, be able to write to a container, output: LEE
 7 days:
