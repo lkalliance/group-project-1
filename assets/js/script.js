@@ -12,6 +12,8 @@ $( document ).ready( function () {
     const jAboutLocContainer = $("#about");
     const jForecastContainer = $("#forecast");
     const jConfirmationModal = $("#confirmation-modal");
+    const jConfirmationName = $("#searchName");
+    const jSavedContainer = $("#savedSearches");
 
     // DECLARE VARIABLES FOR BUTTONS AND INPUTS
     const jSearchInput = $("#searchInput");
@@ -40,13 +42,9 @@ $( document ).ready( function () {
         jSearchBtn.on("click", function(e) {
             // This listener is on the search button
             e.preventDefault();
-            console.log("The search button was clicked!");
 
             // make sure that there is actual text in the search field
-            if ( jSearchInput.val().trim() == "" ) {
-                console.log("The search field was empty!");
-                return;
-            }
+            if ( jSearchInput.val().trim() == "" ) return;
 
             // empty out the containers
             clearTheDecks();
@@ -72,13 +70,14 @@ $( document ).ready( function () {
                     }
                 })
                 drawMainDisplay( jAboutLocContainer, data, mapURL );
+                saveSearch( jSavedContainer, latlon, jConfirmationName.val() );
             }
             // hide the confirmation modal
             jConfirmationModal.removeClass("mg-show");
         });
 
         // Draw areas of the page
-        drawSavedSearches();
+        drawSavedSearches( jSavedContainer );
     }
 
     // API FUNCTIONS
@@ -106,7 +105,7 @@ $( document ).ready( function () {
                 mapURL = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=" + width + "&height=" + height + "&center=lonlat:" + lon + "," + lat + "&zoom=" + zoom + geoAPI;
                 // now call the other functions
                 // getWeather( lat, lon );
-                drawConfirmationModal( jConfirmationModal, location, mapURL, location );
+                drawConfirmationModal( jConfirmationModal, jConfirmationName, location, mapURL, location );
             })
             .catch( function( err ) {
                 console.log(err);
@@ -185,7 +184,7 @@ function drawSavedSearches ( jContainer ) {
     console.log("Drawing the saved searches");
 }
 
-function drawConfirmationModal ( jContainer, confirmationInfo, map ) {
+function drawConfirmationModal ( jContainer, jInput, confirmationInfo, map ) {
     // This function draws the confirmation modal
     // parameter "jContainer" is the modal
     // parameter "confirmationInfo" is the data to use
@@ -205,8 +204,9 @@ function drawConfirmationModal ( jContainer, confirmationInfo, map ) {
     let jMap = $("<img>");
     // clear out the info from last time
     jBody.empty();
-    // write the city name
+    // write the city name in the title and the input field
     jTitle.text(confirmationInfo.city);
+    jInput.val(confirmationInfo.city);
     // populate the list with stuff
     jCounty.text("county: " + confirmationInfo.county);
     jState.text("state: " + confirmationInfo.state);
@@ -246,12 +246,6 @@ function drawForecast ( jContainer, forecastInfo ) {
 
     console.log("Drawing the forecast");
     console.log({ forecastInfo });
-    // make SURE that the array is sorted correctly
-    // data.solunar.sort( function(a, b) {
-    //     let aDate = dayjs(a.date);
-    //     let bDate = dayjs(b.date);
-    //     return a - b;
-    // })
 
     // iterate over seven days, build cards, and insert
     let jCard, jTitle;
@@ -269,4 +263,18 @@ function drawForecast ( jContainer, forecastInfo ) {
         jCard.append( jTitle );
         jContainer.append( jCard );
     }
+}
+
+
+/* ---- OTHER FUNCTIONS ---- */
+
+function saveSearch(jContainer, latlon, name) {
+    // This function saves the user's confirmed search
+    // parameter "jContainer" is the Saved Searches container
+    // parameters "latlon" is the coordinate string
+    // parameter "name" is the user's label for the button
+
+    console.log("Saving the search");
+    console.log( {latlon} );
+    console.log( {name} );
 }
