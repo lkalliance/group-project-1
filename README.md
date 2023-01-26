@@ -9,6 +9,7 @@ OK, guys, here is how the code's workflow goes. Note that the complete "Search-t
 **Initialize page**
 * Add listeners
 * Draw the saved searches
+
 **When the user does a search**
 * Get location data
 * Show confirmation modal. If the user says "No this isn't it," then end there. Otherwise...
