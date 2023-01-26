@@ -61,7 +61,7 @@ $( document ).ready( function () {
                 let latlon = e.currentTarget.dataset.latlon;
                 getWeather( latlon.split(",")[0], latlon.split(",")[1] );
                 // prepare data to send along to draw the main display
-                let data = { name: jConfirmationModal.find("h3")[0].textContent }, sections;
+                let data = { name: jConfirmationName.val() }, sections;
                 let items = jConfirmationModal.find("li");
                 Object.entries(items).forEach(([key, value]) => {
                     if (!isNaN(parseInt(key))) {
