@@ -7,14 +7,14 @@ Moonfish group project
 OK, guys, here is how the code's workflow goes. Note that the complete "Search-to-result" flow is: get Location Data -> get Weather Report -> get Solunar Data
 
 **Initialize page**
---Add listeners
---Draw the saved searches
+* Add listeners
+* Draw the saved searches
 **When the user does a search**
---Get location data
---Show confirmation modal. If the user says "No this isn't it," then end there. Otherwise...
---Get weather data
---Get solunar data
---Do three things simultaneously: draw the main info panel, draw the forecast panel, save the search
+* Get location data
+* Show confirmation modal. If the user says "No this isn't it," then end there. Otherwise...
+* Get weather data
+* Get solunar data
+* Do three things simultaneously: draw the main info panel, draw the forecast panel, save the search
 
 If the user clicks on a saved search, it's the same thing, only we start at "Get Weather Data," because the saved search will have all the info we need from the first two items.
 
