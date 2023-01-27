@@ -192,9 +192,10 @@ $(document).ready(function () {
       .then((responses) =>
         Promise.all(responses.map((response) => response.json()))
       )
-      .then((datas) => (results.solunar = datas));
-
-    drawForecast(jForecastContainer, results);
+      .then((datas) => {
+        results.solunar = datas;
+        drawForecast(jForecastContainer, results);
+      });
   }
 
   // UTILITIES
@@ -281,18 +282,22 @@ function drawForecast(jContainer, forecastInfo) {
 
   // iterate over seven days, build cards, and insert
   let jCard, jTitle;
-  let dToday = dayjs();
+
   for (let i = 0; i < forecastInfo.solunar.length; i++) {
     // calculate the day
-
+    const date = forecastInfo["weather"]["daily"][i]["dt"];
+    let dToday = dayjs.unix(date);
+    let d = dayjs.unix(dToday);
     // create the card
     jCard = $("<div>");
     jCard.addClass("forecast-card");
     jTitle = $("<h3>");
+    jTitle.text(d.format("DD/MM"));
+    console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
     else jTitle.text(forecastInfo.solunar[i]);
-    jCard.append(jTitle);
+    jCard.append(jTitle.text());
     jContainer.append(jCard);
   }
 }
