@@ -292,11 +292,30 @@ function drawForecast(jContainer, forecastInfo) {
     jCard = $("<div>");
     jCard.addClass("forecast-card");
     jTitle = $("<h3>");
+    // create the card elements
+    jCard = $("<div>");
+    let jP1 = $("<p>");
+    let jP2 = $("<p>");
+    let jP3 = $("<p>");
+    let jP4 = $("<p>");
+    let jP5 = $("<p>");
+    let jP6 = $("<p>");
+    let jP7 = $("<p>");
+    //add textcontent to elements created
     jTitle.text(d.format("DD/MM"));
     console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
     else jTitle.text(forecastInfo.solunar[i]);
+
+    // jP1.textContent =
+    //   "Temp: " + forecastInfo["weather"]["daily"][i]["temp"]["day"] + "° F";
+    // jP2.textContent =
+    //   "Wind: " + forecastInfo["weather"]["daily"][i]["wind_speed"] + "MPH";
+    // jP3.textContent =
+    //   "Pressure: " + forecastInfo["weather"]["daily"][i]["humidity"] + "%";
+
+    //append
     jCard.append(jTitle.text());
     jContainer.append(jCard);
   }
