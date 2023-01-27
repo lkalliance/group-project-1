@@ -26,7 +26,9 @@
       <div id="about"></div>
       <div id="forecast"></div>
     </section>
-    <button data-toggle="modal" data-target="confirmation-modal">Show modal</button>
+    <button data-toggle="modal" data-target="confirmation-modal">
+      Show modal
+    </button>
     <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
         <h3>
@@ -37,14 +39,53 @@
           <div class="modal-content">
             (Content of modal here: map, info about search results)
           </div>
-          <label for="searchName">What would you like to call this search?</label>
+          <label for="searchName"
+            >What would you like to call this search?</label
+          >
           <input type="text" id="searchName" />
-          <button id="yesBtn" data-correct="yes"><span>Yes, this is correct</span></button>
-          <button id="noBtn" data-correct="no"><span>No, this isn't correct</span></button>
+          <button id="yesBtn" data-correct="yes">
+            <span>Yes, this is correct</span>
+          </button>
+          <button id="noBtn" data-correct="no">
+            <span>No, this isn't correct</span>
+          </button>
         </div>
       </div>
     </div>
+    <!--  -->
 
+    <button data-toggle="modal" data-target="modal-1">About me</button>
+    <div class="mg-modal" id="modal-1">
+      <div class="mg-modal--content mg-container">
+        <h3>
+          Moon Fish
+          <span class="mg-close mg-right" data-action="close"></span>
+        </h3>
+        <div>
+          <p>
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse quo
+            est, enim, reprehenderit cumque consectetur maxime delectus fugit,
+            nostrum repudiandae libero laborum voluptas! Eligendi repellat,
+            minus commodi, odit suscipit distinctio facilis aspernatur magnam,
+            unde nulla nemo officia quisquam laborum! Deserunt autem,
+            repudiandae dicta impedit eum unde id consequuntur molestias optio
+            officiis suscipit necessitatibus quasi voluptatum ab expedita
+            numquam veniam maiores.
+          </p>
+          <ul>
+            <li>
+              <strong>city:</strong>
+            </li>
+            <li>
+              <strong>latlon:</strong>
+              <li>
+                <strong>county:</strong>
+              </li>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <script src="./assets/js/mgplus.js"></script>
     <script src="./assets/js/jQuery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
