@@ -20,28 +20,28 @@
         placeholder="city name or zipcode"
       />
       <button id="searchBtn" class="searchBtn">Search</button>
+      <div id="savedSearches"></div>
     </section>
     <section id="display">
       <div id="about"></div>
       <div id="forecast"></div>
     </section>
-    <!-- Modal search confirm -->
-    <button id="confirmBtn" data-toggle="modal" data-target="modal-1">Show modal</button>
-    <div class="mg-modal" id="modal-1">
-
+    <button data-toggle="modal" data-target="confirmation-modal">Show modal</button>
+    <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
          <span class="mg-close mg-right" data-action="close"></span>
         <h3>
-          Modal Dialog
+          (Title of modal here)
+          <span class="mg-close mg-right" data-action="close"></span>
         </h3>
         <div>
-            <h1><strong>Was this the area you were looking for?</strong></h1> 
-            <h2 id="searchResults"></h2>
-        <div class="mg-row">
-         <div class="mg-x3"></div>
-         <button id="yesBtn" class="button button--outline mg-x3">Yes</button>
-         <button id="noBtn" class="button button--outline mg-x3">No</button>
-        </div>
+          <div class="modal-content">
+            (Content of modal here: map, info about search results)
+          </div>
+          <label for="searchName">What would you like to call this search?</label>
+          <input type="text" id="searchName" />
+          <button id="yesBtn" data-correct="yes"><span>Yes, this is correct</span></button>
+          <button id="noBtn" data-correct="no"><span>No, this isn't correct</span></button>
         </div>
       </div>
     </div>
