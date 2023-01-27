@@ -287,13 +287,12 @@ function drawForecast(jContainer, forecastInfo) {
     // calculate the day
     const date = forecastInfo["weather"]["daily"][i]["dt"];
     let dToday = dayjs.unix(date);
-    let d = dayjs.unix(dToday);
     // create the card
     jCard = $("<div>");
     jCard.addClass("forecast-card");
     jTitle = $("<h3>");
     // create the card elements
-    jCard = $("<div>");
+
     let jP1 = $("<p>");
     let jP2 = $("<p>");
     let jP3 = $("<p>");
@@ -302,21 +301,30 @@ function drawForecast(jContainer, forecastInfo) {
     let jP6 = $("<p>");
     let jP7 = $("<p>");
     //add textcontent to elements created
-    jTitle.text(d.format("DD/MM"));
+    jTitle.text(dToday.format("DD/MM"));
     console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
-    else jTitle.text(forecastInfo.solunar[i]);
-
-    // jP1.textContent =
-    //   "Temp: " + forecastInfo["weather"]["daily"][i]["temp"]["day"] + "° F";
+    // else jTitle.text(forecastInfo.solunar[i]);
+    // cityName.textContent = data[0]["name"] + " , " + data[0]["country"];
+    // var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i][0]["icon"]}@2x.png`;
+    //         var image = document.createElement("img");
+    //         image.src = iconUrl;
+    jP1.text(
+      "Temp: " +
+        Math.round(forecastInfo.weather.daily[i].temp.min) +
+        " to " +
+        Math.round(forecastInfo.weather.daily[i].temp.max) +
+        "° F"
+    );
+    console.log(jP1.text());
     // jP2.textContent =
     //   "Wind: " + forecastInfo["weather"]["daily"][i]["wind_speed"] + "MPH";
     // jP3.textContent =
-    //   "Pressure: " + forecastInfo["weather"]["daily"][i]["humidity"] + "%";
+    //   "Pressure: " + forecastInfo["weather"]["daily"][i]["pressure"] + "%";
 
     //append
-    jCard.append(jTitle.text());
+    jCard.append(jTitle);
     jContainer.append(jCard);
   }
 }
@@ -328,7 +336,22 @@ function saveSearch(jContainer, latlon, name) {
   // parameter "jContainer" is the Saved Searches container
   // parameters "latlon" is the coordinate string
   // parameter "name" is the user's label for the button
+  //
+  // if (localStorage.getItem("inputarray") === null) {
+  //   var inputarray = [];
+  //   inputarray.push(search);
+  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
+  // } else {
+  //   var inputarray = JSON.parse(localStorage.getItem("inputarray"));
+  //   inputarray.push(search);
+  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
+  // }
 
+  // for (i = 0; i < inputarray.length; i++) {
+  //   let btn = document.createElement("button");
+  //   btn.textContent = inputarray[i];
+  //   savesearch.append(btn);
+  // }
   console.log("Saving the search");
   console.log({ latlon });
   console.log({ name });
