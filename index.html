@@ -28,16 +28,15 @@
     <!-- Modal search confirm -->
     <button id="confirmBtn" data-toggle="modal" data-target="modal-1">Show modal</button>
     <div class="mg-modal" id="modal-1">
+
       <div class="mg-modal--content mg-container">
-        <span class="close">&times;</span>
+         <span class="mg-close mg-right" data-action="close"></span>
         <h3>
           Modal Dialog
         </h3>
         <div>
-            <h1><strong>Was this the area you were looking for</strong></h1> 
-            <h2>
-              SEARCH RESULTS 
-            </h2>
+            <h1><strong>Was this the area you were looking for?</strong></h1> 
+            <h2 id="searchResults"></h2>
         <div class="mg-row">
          <div class="mg-x3"></div>
          <button id="yesBtn" class="button button--outline mg-x3">Yes</button>
@@ -46,7 +45,7 @@
         </div>
       </div>
     </div>
-
+    <script src="./assets/js/michael.js"></script>
     <script src="./assets/js/mgplus.js"></script>
     <script src="./assets/js/jQuery.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
