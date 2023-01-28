@@ -4,14 +4,58 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
     <link rel="stylesheet" href="./assets/css/styles.css" />
     <link rel="stylesheet" href="./assets/css/mgplus.css" />
     <title>Document</title>
   </head>
   <body>
-    <header>
-      <h1>Moon Fish</h1>
-    </header>
+    <body>
+      <!-- header and navbar -->
+      <header>
+          <div class="row">
+              <div class="column column-10"></div>
+              <div class="column column-30 logo">
+                  <div class="row">
+                        <div class="column-column-80">
+                          <ul>
+                              <li><a href="#">Moonfish</a></li>
+                          </ul>
+                      </div>
+                  </div>   
+              </div>
+              <div class="column column-50"></div>
+              <div class="row">
+                  <div class="column column-70"></div>
+                  <div class="column column-30">
+                      <div class="row">
+                          <div class="column">
+                              <ul>
+                                  <li><a href="#">Home</a></li>
+                              </ul>
+                          </div>
+                          <div class="column">
+                              <ul>
+                                  <li><a href="#">About</a></li>
+                              </ul>
+                          </div>
+                          <div class="column">
+                              <ul>
+                                  <li><a href="#">Contact</a></li>
+                              </ul>
+                          </div>
+                          <div class="column">
+                              <ul>
+                                  <li><a href="#">Blog</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="column col-10"></div>
+          </div>
+      </header>
     <section id="search">
       <input
         id="searchInput"
@@ -26,7 +70,7 @@
       <div id="about"></div>
       <div id="forecast"></div>
     </section>
-    <button data-toggle="modal" data-target="confirmation-modal">Show modal</button>
+    
     <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
          <span class="mg-close mg-right" data-action="close"></span>
@@ -45,6 +89,47 @@
         </div>
       </div>
     </div>
+    <div id="info-section-1">
+      <div class="row">
+          <div class="column column-10"></div>
+          <div class="column column-30">
+              <h4>What is the Solunar Theory?</h4>
+              <h3>h3</h3>
+              <p class="font-large">
+                  p</p>
+              <p>
+                p
+              </p>
+          </div>
+          <div class="column column-50">
+              <img src="./assets/images/moonfish.png" alt="moonfish">
+          </div>
+          <div class="column column-10"></div>
+      </div>      
+  </div>
+    <div id="contact-us">
+      <div class="row">
+          <div class="column column-33 column-offset-33">
+              <form action="" method="">
+                  <h3 class="center">Contact Us</h3>
+                  <fieldset>
+                      <label for="fullname">Full name: </label>
+                      <input type="text" id="fullname" name="fullname">
+                      <label for="email">Email: </label>
+                      <input type="email" id="email" name="email">
+                      <label for="message">Messsage: </label>
+                      <textarea name="message" id="message"></textarea>
+                      <input type="submit" class="button">
+                  </fieldset>
+              </form>
+          </div>
+      </div>
+    </div>
+     <div id="footer">
+      <p class="center">
+          Copyright &copy; 2023 Moonfish. <br>
+          All rights reserved.</p>
+     </div>    
     <script src="./assets/js/michael.js"></script>
     <script src="./assets/js/mgplus.js"></script>
     <script src="./assets/js/jQuery.js"></script>
