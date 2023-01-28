@@ -1,49 +1,6 @@
 * {
-    font-family:'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
 }
-
-header {
-  background-color: aquamarine;
-  color: #fff;
-  height: 60px;
+.forecast-card {
+  background-color: aqua;
 }
-
-header img {
-   margin-top: 15px;
-}
-
-header ul li {
-  list-style-type: none;
-  padding-top: 20px;
-}
-
-header ul li a {
-  color: #fff;
-}
-
-.close {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  
-  .close:hover,
-  .close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  #info-section-1 {
-    padding: 50px 10px;
-    background-color: aqua;
-    color: white;
-  }
-
-  #info-section-1 img {
-    display: block;
-    width: 90%;
-    margin: 0 auto;
-  }
-  

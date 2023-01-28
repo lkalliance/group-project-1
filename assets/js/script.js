@@ -4,277 +4,355 @@ const ourProject = "Moonfish";
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
 
-$( document ).ready( function () {
+$(document).ready(function () {
+  // DECLARE VARIABLES FOR DOM CONTAINERS
+  const jSearchContainer = $("#search");
+  const jDisplayContainer = $("#display");
+  const jAboutLocContainer = $("#about");
+  const jForecastContainer = $("#forecast");
+  const jConfirmationModal = $("#confirmation-modal");
+  const jConfirmationName = $("#searchName");
+  const jSavedContainer = $("#savedSearches");
 
-    // DECLARE VARIABLES FOR DOM CONTAINERS
-    const jSearchContainer = $("#search");
-    const jDisplayContainer = $("#display");
-    const jAboutLocContainer = $("#about");
-    const jForecastContainer = $("#forecast");
-    const jConfirmationModal = $("#confirmation-modal");
-    const jConfirmationName = $("#searchName");
-    const jSavedContainer = $("#savedSearches");
+  // DECLARE VARIABLES FOR BUTTONS AND INPUTS
+  const jSearchInput = $("#searchInput");
+  const jSearchBtn = $("#searchBtn");
 
-    // DECLARE VARIABLES FOR BUTTONS AND INPUTS
-    const jSearchInput = $("#searchInput");
-    const jSearchBtn = $("#searchBtn");
+  // API KEYS
+  const geoAPI = "&apiKey=137d269d6c174878a5fba2984b37e8d3";
+  const weatherAPI = "&appid=7897ccda0965301a098fbfd75fe1b4aa";
 
-    // API KEYS
-    const geoAPI = "&apiKey=137d269d6c174878a5fba2984b37e8d3";
-    const weatherAPI = "&appid=7897ccda0965301a098fbfd75fe1b4aa";
+  // VARIABLES WE'LL NEED IN THIS SCOPE
+  let mapURL;
 
-    // VARIABLES WE'LL NEED IN THIS SCOPE
-    let mapURL;
+  // VARIABLES FOR TESTING SETTINGS ON MAP SIZE
+  let zoom = 10;
+  let height = 200;
+  let width = 200;
 
-    // VARIABLES FOR TESTING SETTINGS ON MAP SIZE
-    let zoom = 10;
-    let height = 200; 
-    let width = 200;
+  initialize();
 
+  function initialize() {
+    // This function does tasks to set up page
 
-    initialize();
+    // Set up some listeners
+    jSearchBtn.on("click", function (e) {
+      // This listener is on the search button
+      e.preventDefault();
 
+      // make sure that there is actual text in the search field
+      if (jSearchInput.val().trim() == "") return;
 
-    function initialize() {
-        // This function does tasks to set up page
+      // empty out the containers
+      clearTheDecks();
+      // start the search process: get latitude and longitude
+      getLatLon(jSearchInput.val());
+    });
 
-        // Set up some listeners
-        jSearchBtn.on("click", function(e) {
-            // This listener is on the search button
-            e.preventDefault();
+    jConfirmationModal.on("click", "button", function (e) {
+      // This listener is on the confirmation modal
 
-            // make sure that there is actual text in the search field
-            if ( jSearchInput.val().trim() == "" ) return;
-
-            // empty out the containers
-            clearTheDecks();
-            // start the search process: get latitude and longitude
-            getLatLon( jSearchInput.val() );
-        })
-
-        jConfirmationModal.on("click", "button", function(e) {
-            // This listener is on the confirmation modal
-
-            e.preventDefault();
-            if ( e.currentTarget.dataset.correct == "yes" ) {
-                // continue the API process
-                let latlon = e.currentTarget.dataset.latlon;
-                getWeather( latlon.split(",")[0], latlon.split(",")[1] );
-                // prepare data to send along to draw the main display
-                let data = { name: jConfirmationName.val() }, sections;
-                let items = jConfirmationModal.find("li");
-                Object.entries(items).forEach(([key, value]) => {
-                    if (!isNaN(parseInt(key))) {
-                        sections = value.textContent.split(": ");
-                        data[sections[0]] = sections[1];
-                    }
-                })
-                drawMainDisplay( jAboutLocContainer, data, mapURL );
-                saveSearch( jSavedContainer, latlon, jConfirmationName.val() );
-            }
-            // hide the confirmation modal
-            jConfirmationModal.removeClass("mg-show");
+      e.preventDefault();
+      if (e.currentTarget.dataset.correct == "yes") {
+        // continue the API process
+        let latlon = e.currentTarget.dataset.latlon;
+        getWeather(latlon.split(",")[0], latlon.split(",")[1]);
+        // prepare data to send along to draw the main display
+        let data = { name: jConfirmationName.val() },
+          sections;
+        let items = jConfirmationModal.find("li");
+        Object.entries(items).forEach(([key, value]) => {
+          if (!isNaN(parseInt(key))) {
+            sections = value.textContent.split(": ");
+            data[sections[0]] = sections[1];
+          }
         });
+        drawMainDisplay(jAboutLocContainer, data, mapURL);
+        saveSearch(jSavedContainer, latlon, jConfirmationName.val());
+      }
+      // hide the confirmation modal
+      jConfirmationModal.removeClass("mg-show");
+    });
 
-        // Draw areas of the page
-        drawSavedSearches( jSavedContainer );
-    }
+    // Draw areas of the page
+    drawSavedSearches(jSavedContainer);
+  }
 
-    // API FUNCTIONS
+  // API FUNCTIONS
 
-    function getLatLon ( where ) {
-        // This function gets the latitude and longitude
-        // parameter "where" is the user's search term
+  function getLatLon(where) {
+    // This function gets the latitude and longitude
+    // parameter "where" is the user's search term
 
-        let call = "https://api.geoapify.com/v1/geocode/search?text=" + where + "&format=json" + geoAPI;
-        let requestOptions = {
-            method: "GET"
+    let call =
+      "https://api.geoapify.com/v1/geocode/search?text=" +
+      where +
+      "&format=json" +
+      geoAPI;
+    let requestOptions = {
+      method: "GET",
+    };
+
+    fetch(call, requestOptions)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        // grab the specific data from the returned array
+        let location = data.results[0];
+        // save the latitude and longitude
+        let lat = location.lat;
+        let lon = location.lon;
+        // update the map URL
+        mapURL =
+          "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=" +
+          width +
+          "&height=" +
+          height +
+          "&center=lonlat:" +
+          lon +
+          "," +
+          lat +
+          "&zoom=" +
+          zoom +
+          geoAPI;
+        // now call the other functions
+        // getWeather( lat, lon );
+        drawConfirmationModal(
+          jConfirmationModal,
+          jConfirmationName,
+          location,
+          mapURL,
+          location
+        );
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  function getWeather(lat, lon) {
+    // This function gets the data on weather
+    // parameters "lat" and "lon" are latitude and longitude
+
+    // first get the weather
+    let weatherCall =
+      "https://api.openweathermap.org/data/3.0/onecall?&lat=" +
+      lat +
+      "&lon=" +
+      lon +
+      "&units=imperial&exclude=minutely" +
+      weatherAPI;
+
+    fetch(weatherCall)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (weatherData) {
+        // construct the weather portion of the object
+        let dataCollect = {
+          weather: weatherData,
+          solunar: [],
         };
 
-        fetch( call, requestOptions )
-            .then( function( response ) {
-                return response.json();
-            })
-            .then( function( data ) {
-                // grab the specific data from the returned array
-                let location = data.results[0];
-                // save the latitude and longitude
-                let lat = location.lat;
-                let lon = location.lon;
-                // update the map URL
-                mapURL = "https://maps.geoapify.com/v1/staticmap?style=osm-bright-smooth&width=" + width + "&height=" + height + "&center=lonlat:" + lon + "," + lat + "&zoom=" + zoom + geoAPI;
-                // now call the other functions
-                // getWeather( lat, lon );
-                drawConfirmationModal( jConfirmationModal, jConfirmationName, location, mapURL, location );
-            })
-            .catch( function( err ) {
-                console.log(err);
-            });      
+        // now send this along to collect the solunar data:
+        let offset = weatherData.timezone_offset / 3600;
+        getSolunar(lat, lon, offset, dataCollect);
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  function getSolunar(lat, lon, offset, results) {
+    // This function makes recursive calls to get solunar data
+    // parameters "lat" and "lon" are geographic coordinates
+    // parameter "offset" is the offset in hours from GMT
+    // parameter "dDate" is the date we're searching on
+    // paraemter "results" is the object to pass along to the renderer
+
+    let solunarCalls = [];
+    let thisCall, dDate;
+    let dToday = dayjs();
+    for (let i = 0; i < 7; i++) {
+      dDate = dToday.add(i, "day");
+      thisCall =
+        "https://api.solunar.org/solunar/" +
+        lat +
+        "," +
+        lon +
+        "," +
+        dDate.format("YYYYMMDD") +
+        "," +
+        offset;
+      solunarCalls.push(thisCall);
     }
 
-    function getWeather ( lat, lon ) {
-        // This function gets the data on weather
-        // parameters "lat" and "lon" are latitude and longitude
+    Promise.all(solunarCalls.map((call) => fetch(call)))
+      .then((responses) =>
+        Promise.all(responses.map((response) => response.json()))
+      )
+      .then((datas) => {
+        results.solunar = datas;
+        drawForecast(jForecastContainer, results);
+      });
+  }
 
-        // first get the weather
-        let weatherCall = "https://api.openweathermap.org/data/3.0/onecall?&lat=" + lat + "&lon=" + lon + "&units=imperial&exclude=minutely" + weatherAPI;
+  // UTILITIES
 
-        fetch( weatherCall )
-            .then(function( response ) {
-                return response.json();
-            })
-            .then( function( weatherData ) {
-
-                // construct the weather portion of the object
-                let dataCollect = {
-                    weather: weatherData,
-                    solunar: []
-                };
-                
-                // now send this along to collect the solunar data:
-                let offset = weatherData.timezone_offset / 3600;
-                getSolunar ( lat, lon, offset, dataCollect );
-            })
-            .catch( function( err ) {
-                console.log( err );
-            });
-    }
-
-    function getSolunar( lat, lon, offset, results ) {
-        // This function makes recursive calls to get solunar data
-        // parameters "lat" and "lon" are geographic coordinates
-        // parameter "offset" is the offset in hours from GMT
-        // parameter "dDate" is the date we're searching on
-        // paraemter "results" is the object to pass along to the renderer
-
-        let solunarCalls = [];
-        let thisCall, dDate;
-        let dToday = dayjs();
-        for ( let i = 0; i < 7; i++ ) {
-            dDate = dToday.add(i, "day");
-            thisCall = "https://api.solunar.org/solunar/" + lat + "," + lon + "," + dDate.format("YYYYMMDD") + "," + offset;
-            solunarCalls.push(thisCall);
-        }
-
-        Promise.all( solunarCalls.map( call => fetch( call )))
-            .then( responses => Promise.all( responses.map( response => response.json())))
-            .then((datas => results.solunar=datas))
-        
-        drawForecast( jForecastContainer, results );
-    }
-
-    // UTILITIES
-
-    function clearTheDecks() {
-        // This function clears out all dynamic content
-        jAboutLocContainer.empty();
-        jForecastContainer.empty();
-    }
-})
-
-
-
+  function clearTheDecks() {
+    // This function clears out all dynamic content
+    jAboutLocContainer.empty();
+    jForecastContainer.empty();
+  }
+});
 
 /* ---- DRAW PAGE FUNCTIONS ---- */
 
-function drawSavedSearches ( jContainer ) {
-    // This function draws the saved searches on the page
-    // parameter "jContainer" is the saved searches container
+function drawSavedSearches(jContainer) {
+  // This function draws the saved searches on the page
+  // parameter "jContainer" is the saved searches container
 
-    console.log("Drawing the saved searches");
+  console.log("Drawing the saved searches");
 }
 
-function drawConfirmationModal ( jContainer, jInput, confirmationInfo, map ) {
-    // This function draws the confirmation modal
-    // parameter "jContainer" is the modal
-    // parameter "confirmationInfo" is the data to use
-    // parameter "map" is the url for the map tile
-    // parameters "locationInfo" is the return from the latlon query
+function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
+  // This function draws the confirmation modal
+  // parameter "jContainer" is the modal
+  // parameter "confirmationInfo" is the data to use
+  // parameter "map" is the url for the map tile
+  // parameters "locationInfo" is the return from the latlon query
 
-    console.log("Drawing the confirmation modal");
-    console.log({ confirmationInfo });
+  console.log("Drawing the confirmation modal");
+  console.log({ confirmationInfo });
 
-    // collect and create some DOM nodes
-    let jTitle = $("#confirmation-modal .mg-container h3");
-    let jBody = $("#confirmation-modal .modal-content");
-    let jList = $("<ul>");
-    let jCounty = $("<li>");
-    let jState = $("<li>");
-    let jCountry = $("<li>");
-    let jMap = $("<img>");
-    // clear out the info from last time
-    jBody.empty();
-    // write the city name in the title and the input field
-    jTitle.text(confirmationInfo.city);
-    jInput.val(confirmationInfo.city);
-    // populate the list with stuff
-    jCounty.text("county: " + confirmationInfo.county);
-    jState.text("state: " + confirmationInfo.state);
-    jCountry.text("country: " + confirmationInfo.country);
-    if ( confirmationInfo.country_code == "us" ) {
-        // if the country is US, add the county and state
-        jList.append(jCounty);
-        jList.append(jState);
-    }
-    else jList.append(jCountry);
-    // set up the map
-    jMap.attr("src", map);
-    // append the map and the list
-    jBody.append(jMap);
-    jBody.append(jList);
-    // encode the yes-button with the data to pass on
-    jContainer.find("button").attr("data-latlon", (confirmationInfo.lat + "," + confirmationInfo.lon));
-    jContainer.find("button").attr("data-place", jTitle.text());
-    // show the modal
-    jContainer.addClass("mg-show");
+  // collect and create some DOM nodes
+  let jTitle = $("#confirmation-modal .mg-container h3");
+  let jBody = $("#confirmation-modal .modal-content");
+  let jList = $("<ul>");
+  let jCounty = $("<li>");
+  let jState = $("<li>");
+  let jCountry = $("<li>");
+  let jMap = $("<img>");
+  // clear out the info from last time
+  jBody.empty();
+  // write the city name in the title and the input field
+  jTitle.text(confirmationInfo.city);
+  jInput.val(confirmationInfo.city);
+  // populate the list with stuff
+  jCounty.text("county: " + confirmationInfo.county);
+  jState.text("state: " + confirmationInfo.state);
+  jCountry.text("country: " + confirmationInfo.country);
+  if (confirmationInfo.country_code == "us") {
+    // if the country is US, add the county and state
+    jList.append(jCounty);
+    jList.append(jState);
+  } else jList.append(jCountry);
+  // set up the map
+  jMap.attr("src", map);
+  // append the map and the list
+  jBody.append(jMap);
+  jBody.append(jList);
+  // encode the yes-button with the data to pass on
+  jContainer
+    .find("button")
+    .attr("data-latlon", confirmationInfo.lat + "," + confirmationInfo.lon);
+  jContainer.find("button").attr("data-place", jTitle.text());
+  // show the modal
+  jContainer.addClass("mg-show");
 }
 
-function drawMainDisplay ( jContainer, mainDisplayInfo, map ) {
-    // This function draws the main info panel
-    // parameter "jContainer" is the container to fill
-    // parameter "mainDisplayInfo" is the data to use
-    // parameter "map" is the URL for the map tile
+function drawMainDisplay(jContainer, mainDisplayInfo, map) {
+  // This function draws the main info panel
+  // parameter "jContainer" is the container to fill
+  // parameter "mainDisplayInfo" is the data to use
+  // parameter "map" is the URL for the map tile
 
-    console.log("Drawing the main info panel");
-    console.log({ mainDisplayInfo });
+  console.log("Drawing the main info panel");
+  console.log({ mainDisplayInfo });
 }
 
-function drawForecast ( jContainer, forecastInfo ) {
-    // This function draws the forecast panel
-    // parameter "jContainer" is the container to fill
-    // parameter "forecastInfo" is the data needed to construct
+function drawForecast(jContainer, forecastInfo) {
+  // This function draws the forecast panel
+  // parameter "jContainer" is the container to fill
+  // parameter "forecastInfo" is the data needed to construct
 
-    console.log("Drawing the forecast");
-    console.log({ forecastInfo });
+  console.log("Drawing the forecast");
+  console.log({ forecastInfo });
 
-    // iterate over seven days, build cards, and insert
-    let jCard, jTitle;
-    let dToday = dayjs();
-    for ( let i = 0; i < forecastInfo.solunar.length; i++ ) {
-        // calculate the day
-        
-        // create the card
-        jCard = $("<div>");
-        jCard.addClass("forecast-card");
-        jTitle = $("<h3>");
-        if ( i == 0 ) jTitle.text("Today");
-        else if ( i == 1 ) jTitle.text("Tomorrow");
-        else jTitle.text(forecastInfo.solunar[i]);
-        jCard.append( jTitle );
-        jContainer.append( jCard );
-    }
+  // iterate over seven days, build cards, and insert
+  let jCard, jTitle;
+
+  for (let i = 0; i < forecastInfo.solunar.length; i++) {
+    // calculate the day
+    const date = forecastInfo["weather"]["daily"][i]["dt"];
+    let dToday = dayjs.unix(date);
+    // create the card
+    jCard = $("<div>");
+    jCard.addClass("forecast-card");
+    jTitle = $("<h3>");
+    // create the card elements
+
+    let jP1 = $("<p>");
+    let jP2 = $("<p>");
+    let jP3 = $("<p>");
+    let jP4 = $("<p>");
+    let jP5 = $("<p>");
+    let jP6 = $("<p>");
+    let jP7 = $("<p>");
+    //add textcontent to elements created
+    jTitle.text(dToday.format("DD/MM"));
+    console.log(jTitle.text());
+    if (i == 0) jTitle.text("Today");
+    else if (i == 1) jTitle.text("Tomorrow");
+    // else jTitle.text(forecastInfo.solunar[i]);
+    // cityName.textContent = data[0]["name"] + " , " + data[0]["country"];
+    // var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i][0]["icon"]}@2x.png`;
+    //         var image = document.createElement("img");
+    //         image.src = iconUrl;
+    jP1.text(
+      "Temp: " +
+        Math.round(forecastInfo.weather.daily[i].temp.min) +
+        " to " +
+        Math.round(forecastInfo.weather.daily[i].temp.max) +
+        "° F"
+    );
+    console.log(jP1.text());
+    // jP2.textContent =
+    //   "Wind: " + forecastInfo["weather"]["daily"][i]["wind_speed"] + "MPH";
+    // jP3.textContent =
+    //   "Pressure: " + forecastInfo["weather"]["daily"][i]["pressure"] + "%";
+
+    //append
+    jCard.append(jTitle);
+    jContainer.append(jCard);
+  }
 }
-
 
 /* ---- OTHER FUNCTIONS ---- */
 
 function saveSearch(jContainer, latlon, name) {
-    // This function saves the user's confirmed search
-    // parameter "jContainer" is the Saved Searches container
-    // parameters "latlon" is the coordinate string
-    // parameter "name" is the user's label for the button
+  // This function saves the user's confirmed search
+  // parameter "jContainer" is the Saved Searches container
+  // parameters "latlon" is the coordinate string
+  // parameter "name" is the user's label for the button
+  //
+  // if (localStorage.getItem("inputarray") === null) {
+  //   var inputarray = [];
+  //   inputarray.push(search);
+  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
+  // } else {
+  //   var inputarray = JSON.parse(localStorage.getItem("inputarray"));
+  //   inputarray.push(search);
+  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
+  // }
 
-    console.log("Saving the search");
-    console.log( {latlon} );
-    console.log( {name} );
+  // for (i = 0; i < inputarray.length; i++) {
+  //   let btn = document.createElement("button");
+  //   btn.textContent = inputarray[i];
+  //   savesearch.append(btn);
+  // }
+  console.log("Saving the search");
+  console.log({ latlon });
+  console.log({ name });
 }
