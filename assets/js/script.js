@@ -300,16 +300,18 @@ function drawForecast(jContainer, forecastInfo) {
     let jP5 = $("<p>");
     let jP6 = $("<p>");
     let jP7 = $("<p>");
+    let jP8 = $("<p>");
+    let jP9 = $("<p>");
+    let jP10 = $("<p>");
+    let jP11 = $("<p>");
     //add textcontent to elements created
     jTitle.text(dToday.format("DD/MM"));
     console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
-    // else jTitle.text(forecastInfo.solunar[i]);
-    // cityName.textContent = data[0]["name"] + " , " + data[0]["country"];
-    // var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i][0]["icon"]}@2x.png`;
-    //         var image = document.createElement("img");
-    //         image.src = iconUrl;
+    var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}@2x.png`;
+    var image = document.createElement("img");
+    image.src = iconUrl;
     jP1.text(
       "Temp: " +
         Math.round(forecastInfo.weather.daily[i].temp.min) +
@@ -318,13 +320,31 @@ function drawForecast(jContainer, forecastInfo) {
         "° F"
     );
     console.log(jP1.text());
-    // jP2.textContent =
-    //   "Wind: " + forecastInfo["weather"]["daily"][i]["wind_speed"] + "MPH";
-    // jP3.textContent =
-    //   "Pressure: " + forecastInfo["weather"]["daily"][i]["pressure"] + "%";
+    jP2.text("Wind: " + forecastInfo.weather.daily[i].wind_speed + "MPH");
+    jP3.text("Pressure: " + forecastInfo.weather.daily[i].pressure + "%");
+    jP4.text("Sunrise: " + forecastInfo.solunar[i].sunRise);
+    jP5.text("Sunrise: " + forecastInfo.solunar[i].sunSet);
+    jP6.text("Moonrise: " + forecastInfo.solunar[i].moonRise);
+    jP7.text("Moonset: " + forecastInfo.solunar[i].moonSet);
+    jP8.text("Major: " + forecastInfo.solunar[i].major1Start);
+    jP9.text("Minor: " + forecastInfo.solunar[i].minor1Start);
+    jP8.text("Major: " + forecastInfo.solunar[i].major2Start);
+    jP9.text("Minor: " + forecastInfo.solunar[i].minor2Start);
 
     //append
     jCard.append(jTitle);
+    jCard.append(image);
+    jCard.append(jP1);
+    jCard.append(jP2);
+    jCard.append(jP3);
+    jCard.append(jP4);
+    jCard.append(jP5);
+    jCard.append(jP6);
+    jCard.append(jP7);
+    jCard.append(jP8);
+    jCard.append(jP9);
+    jCard.append(jP10);
+    jCard.append(jP11);
     jContainer.append(jCard);
   }
 }
@@ -355,4 +375,6 @@ function saveSearch(jContainer, latlon, name) {
   console.log("Saving the search");
   console.log({ latlon });
   console.log({ name });
+
+  drawSavedSearches(jContainer);
 }
