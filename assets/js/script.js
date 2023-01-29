@@ -13,6 +13,7 @@ $(document).ready(function () {
   const jConfirmationModal = $("#confirmation-modal");
   const jConfirmationName = $("#searchName");
   const jSavedContainer = $("#savedSearches");
+  const jClearBtn = $("#clearBtn");
 
   // DECLARE VARIABLES FOR BUTTONS AND INPUTS
   const jSearchInput = $("#searchInput");
@@ -48,7 +49,10 @@ $(document).ready(function () {
       // start the search process: get latitude and longitude
       getLatLon(jSearchInput.val());
     });
-
+    jClearBtn.on("click", function (e) {
+      e.preventDefault();
+      clearSearch(jSavedContainer);
+    });
     jConfirmationModal.on("click", "button", function (e) {
       // This listener is on the confirmation modal
 
@@ -212,6 +216,22 @@ $(document).ready(function () {
 function drawSavedSearches(jContainer) {
   // This function draws the saved searches on the page
   // parameter "jContainer" is the saved searches container
+  jContainer.empty();
+  // Get localStorage…
+  let x = localStorage.getItem("SolunarSearch");
+  // If it doesn’t exist then return…
+  let y;
+  if (!x) return;
+  else y = JSON.parse(x);
+  console.log(y);
+  // —Create the button
+  let jBtn;
+  for (let i = 0; i < y.length; i++) {
+    jBtn = $("<button>");
+    jBtn.text(y[i].name);
+    jBtn.attr("data-latlon", y[i].latlon);
+    jContainer.append(jBtn);
+  }
 
   console.log("Drawing the saved searches");
 }
@@ -379,5 +399,9 @@ function saveSearch(jContainer, latlon, name) {
   console.log({ latlon });
   console.log({ name });
 
+  drawSavedSearches(jContainer);
+}
+function clearSearch(jContainer) {
+  localStorage.setItem("SolunarSearch", "");
   drawSavedSearches(jContainer);
 }
