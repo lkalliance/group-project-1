@@ -291,11 +291,12 @@ function drawForecast(jContainer, forecastInfo) {
     jCard = $("<div>");
     jCard.addClass("forecast-card");
     jTitle = $("<h3>");
+    jList = $("<ul>");
     // create the card elements
 
-    let jP1 = $("<p>");
-    let jP2 = $("<p>");
-    let jP3 = $("<p>");
+    let jP1 = $("<li>");
+    let jP2 = $("<li>");
+    let jP3 = $("<li>");
     let jP4 = $("<p>");
     let jP5 = $("<p>");
     let jP6 = $("<p>");
@@ -328,22 +329,23 @@ function drawForecast(jContainer, forecastInfo) {
     jP7.text("Moonset: " + forecastInfo.solunar[i].moonSet);
     jP8.text("Major: " + forecastInfo.solunar[i].major1Start);
     jP9.text("Minor: " + forecastInfo.solunar[i].minor1Start);
-    jP8.text("Major: " + forecastInfo.solunar[i].major2Start);
-    jP9.text("Minor: " + forecastInfo.solunar[i].minor2Start);
+    jP10.text("Major: " + forecastInfo.solunar[i].major2Start);
+    jP11.text("Minor: " + forecastInfo.solunar[i].minor2Start);
 
     //append
     jCard.append(jTitle);
     jCard.append(image);
-    jCard.append(jP1);
-    jCard.append(jP2);
-    jCard.append(jP3);
+    jList.append(jP1);
+    jList.append(jP2);
+    jList.append(jP3);
+    jCard.append(jList);
     jCard.append(jP4);
     jCard.append(jP5);
     jCard.append(jP6);
     jCard.append(jP7);
     jCard.append(jP8);
-    jCard.append(jP9);
     jCard.append(jP10);
+    jCard.append(jP9);
     jCard.append(jP11);
     jContainer.append(jCard);
   }
@@ -352,26 +354,27 @@ function drawForecast(jContainer, forecastInfo) {
 /* ---- OTHER FUNCTIONS ---- */
 
 function saveSearch(jContainer, latlon, name) {
+  console.clear();
+  console.log("I'm saving the search!");
   // This function saves the user's confirmed search
   // parameter "jContainer" is the Saved Searches container
   // parameters "latlon" is the coordinate string
   // parameter "name" is the user's label for the button
   //
-  // if (localStorage.getItem("inputarray") === null) {
-  //   var inputarray = [];
-  //   inputarray.push(search);
-  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
-  // } else {
-  //   var inputarray = JSON.parse(localStorage.getItem("inputarray"));
-  //   inputarray.push(search);
-  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
-  // }
 
-  // for (i = 0; i < inputarray.length; i++) {
-  //   let btn = document.createElement("button");
-  //   btn.textContent = inputarray[i];
-  //   savesearch.append(btn);
-  // }
+  let search = {
+    name: name,
+    latlon: latlon,
+  };
+  let x = localStorage.getItem("SolunarSearch");
+  let y;
+  if (!x) y = [];
+  else y = JSON.parse(x);
+  console.log(typeof y);
+  y.push(search);
+  console.log(y);
+  localStorage.setItem("SolunarSearch", JSON.stringify(y));
+
   console.log("Saving the search");
   console.log({ latlon });
   console.log({ name });
