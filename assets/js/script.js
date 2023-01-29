@@ -13,6 +13,7 @@ $(document).ready(function () {
   const jConfirmationModal = $("#confirmation-modal");
   const jConfirmationName = $("#searchName");
   const jSavedContainer = $("#savedSearches");
+  const jClearBtn = $("#clearBtn");
 
   // DECLARE VARIABLES FOR BUTTONS AND INPUTS
   const jSearchInput = $("#searchInput");
@@ -48,7 +49,30 @@ $(document).ready(function () {
       // start the search process: get latitude and longitude
       getLatLon(jSearchInput.val());
     });
+    jClearBtn.on("click", function (e) {
+      e.preventDefault();
+      clearSearch(jSavedContainer);
+    });
+    jSavedContainer.on("click", "button", function (e) {
+      e.preventDefault();
+      console.log(e.currentTarget.dataset.latlon);
 
+      let data = {
+        name: e.currentTarget.textContent,
+      };
+      if (e.currentTarget.getAttribute("data-country")) {
+        data.country = e.currentTarget.getAttribute("data-country");
+      }
+      if (e.currentTarget.getAttribute("data-county")) {
+        data.county = e.currentTarget.getAttribute("data-county");
+      }
+      if (e.currentTarget.getAttribute("data-state")) {
+        data.state = e.currentTarget.getAttribute("data-state");
+      }
+      drawMainDisplay(jAboutLocContainer, data, e.currentTarget.dataset.map);
+      let coordinates = e.currentTarget.dataset.latlon.split(",");
+      getWeather(coordinates[0], coordinates[1]);
+    });
     jConfirmationModal.on("click", "button", function (e) {
       // This listener is on the confirmation modal
 
@@ -68,7 +92,13 @@ $(document).ready(function () {
           }
         });
         drawMainDisplay(jAboutLocContainer, data, mapURL);
-        saveSearch(jSavedContainer, latlon, jConfirmationName.val());
+        saveSearch(
+          jSavedContainer,
+          latlon,
+          jConfirmationName.val(),
+          data,
+          mapURL
+        );
       }
       // hide the confirmation modal
       jConfirmationModal.removeClass("mg-show");
@@ -80,7 +110,7 @@ $(document).ready(function () {
 
   // API FUNCTIONS
 
-  function getLatLon(where) {
+  function getLatLon(where, Saved) {
     // This function gets the latitude and longitude
     // parameter "where" is the user's search term
 
@@ -134,7 +164,8 @@ $(document).ready(function () {
   function getWeather(lat, lon) {
     // This function gets the data on weather
     // parameters "lat" and "lon" are latitude and longitude
-
+    console.log(lat);
+    console.log(lon);
     // first get the weather
     let weatherCall =
       "https://api.openweathermap.org/data/3.0/onecall?&lat=" +
@@ -212,6 +243,33 @@ $(document).ready(function () {
 function drawSavedSearches(jContainer) {
   // This function draws the saved searches on the page
   // parameter "jContainer" is the saved searches container
+  jContainer.empty();
+  // Get localStorage…
+  let x = localStorage.getItem("SolunarSearch");
+  // If it doesn’t exist then return…
+  let y;
+  if (!x) return;
+  else y = JSON.parse(x);
+  console.log(y);
+  // —Create the button
+  let jBtn;
+  for (let i = 0; i < y.length; i++) {
+    console.log(y[i]);
+    jBtn = $("<button>");
+    jBtn.text(y[i].name);
+    jBtn.attr("data-latlon", y[i].latlon);
+    jBtn.attr("data-map", y[i].map);
+    if (y[i].country) {
+      jBtn.attr("data-country", y[i].country);
+    }
+    if (y[i].county) {
+      jBtn.attr("data-county", y[i].county);
+    }
+    if (y[i].state) {
+      jBtn.attr("data-state", y[i].state);
+    }
+    jContainer.append(jBtn);
+  }
 
   console.log("Drawing the saved searches");
 }
@@ -270,6 +328,9 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
 
   console.log("Drawing the main info panel");
   console.log({ mainDisplayInfo });
+  let mapimage = $("<img>");
+  mapimage.attr("src", map);
+  jContainer.append(mapimage);
 }
 
 function drawForecast(jContainer, forecastInfo) {
@@ -307,7 +368,7 @@ function drawForecast(jContainer, forecastInfo) {
     let jP11 = $("<p>");
     //add textcontent to elements created
     jTitle.text(dToday.format("DD/MM"));
-    console.log(jTitle.text());
+    // console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
     var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}@2x.png`;
@@ -320,7 +381,7 @@ function drawForecast(jContainer, forecastInfo) {
         Math.round(forecastInfo.weather.daily[i].temp.max) +
         "° F"
     );
-    console.log(jP1.text());
+    // console.log(jP1.text());
     jP2.text("Wind: " + forecastInfo.weather.daily[i].wind_speed + "MPH");
     jP3.text("Pressure: " + forecastInfo.weather.daily[i].pressure + "%");
     jP4.text("Sunrise: " + forecastInfo.solunar[i].sunRise);
@@ -353,31 +414,46 @@ function drawForecast(jContainer, forecastInfo) {
 
 /* ---- OTHER FUNCTIONS ---- */
 
-function saveSearch(jContainer, latlon, name) {
+function saveSearch(jContainer, latlon, name, info, map) {
   console.clear();
   console.log("I'm saving the search!");
   // This function saves the user's confirmed search
   // parameter "jContainer" is the Saved Searches container
   // parameters "latlon" is the coordinate string
   // parameter "name" is the user's label for the button
-  //
-
+  // //
+  // console.log(info);
   let search = {
     name: name,
     latlon: latlon,
+    map: map,
   };
+  if (info.country) {
+    search.country = info.country;
+  }
+  if (info.county) {
+    search.county = info.county;
+  }
+  if (info.state) {
+    search.state = info.state;
+  }
+  // console.log(search);
   let x = localStorage.getItem("SolunarSearch");
   let y;
   if (!x) y = [];
   else y = JSON.parse(x);
-  console.log(typeof y);
+  // console.log(typeof y);
   y.push(search);
-  console.log(y);
+  // console.log(y);
   localStorage.setItem("SolunarSearch", JSON.stringify(y));
 
-  console.log("Saving the search");
-  console.log({ latlon });
-  console.log({ name });
+  // console.log("Saving the search");
+  // console.log({ latlon });
+  // console.log({ name });
 
+  drawSavedSearches(jContainer);
+}
+function clearSearch(jContainer) {
+  localStorage.setItem("SolunarSearch", "");
   drawSavedSearches(jContainer);
 }
