@@ -281,6 +281,7 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
   jTitle.addClass("mg-x12");
   jDiv.addClass("mg-x6");
   jList.addClass("mg-x6");
+  jContainer.css("background grey")
 
   if (mainDisplayInfo.county) {
     let jLi1 = $("<li>");
@@ -321,25 +322,28 @@ function drawForecast(jContainer, forecastInfo) {
     jCard = $("<div>");
     jCard.addClass("forecast-card");
     jTitle = $("<h3>");
+    jList = $("<ul>");
     // create the card elements
 
-    let jP1 = $("<p>");
-    let jP2 = $("<p>");
-    let jP3 = $("<p>");
+    let jP1 = $("<li>");
+    let jP2 = $("<li>");
+    let jP3 = $("<li>");
     let jP4 = $("<p>");
     let jP5 = $("<p>");
     let jP6 = $("<p>");
     let jP7 = $("<p>");
+    let jP8 = $("<p>");
+    let jP9 = $("<p>");
+    let jP10 = $("<p>");
+    let jP11 = $("<p>");
     //add textcontent to elements created
     jTitle.text(dToday.format("DD/MM"));
     console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
-    // else jTitle.text(forecastInfo.solunar[i]);
-    // cityName.textContent = data[0]["name"] + " , " + data[0]["country"];
-    // var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i][0]["icon"]}@2x.png`;
-    //         var image = document.createElement("img");
-    //         image.src = iconUrl;
+    var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}@2x.png`;
+    var image = document.createElement("img");
+    image.src = iconUrl;
     jP1.text(
       "Temp: " +
         Math.round(forecastInfo.weather.daily[i].temp.min) +
@@ -348,13 +352,32 @@ function drawForecast(jContainer, forecastInfo) {
         "° F"
     );
     console.log(jP1.text());
-    // jP2.textContent =
-    //   "Wind: " + forecastInfo["weather"]["daily"][i]["wind_speed"] + "MPH";
-    // jP3.textContent =
-    //   "Pressure: " + forecastInfo["weather"]["daily"][i]["pressure"] + "%";
+    jP2.text("Wind: " + forecastInfo.weather.daily[i].wind_speed + "MPH");
+    jP3.text("Pressure: " + forecastInfo.weather.daily[i].pressure + "%");
+    jP4.text("Sunrise: " + forecastInfo.solunar[i].sunRise);
+    jP5.text("Sunrise: " + forecastInfo.solunar[i].sunSet);
+    jP6.text("Moonrise: " + forecastInfo.solunar[i].moonRise);
+    jP7.text("Moonset: " + forecastInfo.solunar[i].moonSet);
+    jP8.text("Major: " + forecastInfo.solunar[i].major1Start);
+    jP9.text("Minor: " + forecastInfo.solunar[i].minor1Start);
+    jP10.text("Major: " + forecastInfo.solunar[i].major2Start);
+    jP11.text("Minor: " + forecastInfo.solunar[i].minor2Start);
 
     //append
     jCard.append(jTitle);
+    jCard.append(image);
+    jList.append(jP1);
+    jList.append(jP2);
+    jList.append(jP3);
+    jCard.append(jList);
+    jCard.append(jP4);
+    jCard.append(jP5);
+    jCard.append(jP6);
+    jCard.append(jP7);
+    jCard.append(jP8);
+    jCard.append(jP10);
+    jCard.append(jP9);
+    jCard.append(jP11);
     jContainer.append(jCard);
   }
 }
@@ -362,27 +385,30 @@ function drawForecast(jContainer, forecastInfo) {
 /* ---- OTHER FUNCTIONS ---- */
 
 function saveSearch(jContainer, latlon, name) {
+  console.clear();
+  console.log("I'm saving the search!");
   // This function saves the user's confirmed search
   // parameter "jContainer" is the Saved Searches container
   // parameters "latlon" is the coordinate string
   // parameter "name" is the user's label for the button
   //
-  // if (localStorage.getItem("inputarray") === null) {
-  //   var inputarray = [];
-  //   inputarray.push(search);
-  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
-  // } else {
-  //   var inputarray = JSON.parse(localStorage.getItem("inputarray"));
-  //   inputarray.push(search);
-  //   localStorage.setItem("inputarray", JSON.stringify(inputarray));
-  // }
 
-  // for (i = 0; i < inputarray.length; i++) {
-  //   let btn = document.createElement("button");
-  //   btn.textContent = inputarray[i];
-  //   savesearch.append(btn);
-  // }
+  let search = {
+    name: name,
+    latlon: latlon,
+  };
+  let x = localStorage.getItem("SolunarSearch");
+  let y;
+  if (!x) y = [];
+  else y = JSON.parse(x);
+  console.log(typeof y);
+  y.push(search);
+  console.log(y);
+  localStorage.setItem("SolunarSearch", JSON.stringify(y));
+
   console.log("Saving the search");
   console.log({ latlon });
   console.log({ name });
+
+  drawSavedSearches(jContainer);
 }
