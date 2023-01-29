@@ -1,6 +1,10 @@
-* {
-  font-family: "Times New Roman", Times, serif;
-}
 .forecast-card {
   background-color: aqua;
+}
+
+#about h3 {
+  font-weight: bold;
+}
+#about ul {
+  list-style-type: none;
 }

@@ -4,58 +4,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
-    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     <link rel="stylesheet" href="./assets/css/mgplus.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Document</title>
   </head>
   <body>
     <body>
       <!-- header and navbar -->
       <header>
-          <div class="row">
-              <div class="column column-10"></div>
-              <div class="column column-30 logo">
-                  <div class="row">
-                        <div class="column-column-80">
-                          <ul>
-                              <li><a href="#">Moonfish</a></li>
-                          </ul>
-                      </div>
-                  </div>   
-              </div>
-              <div class="column column-50"></div>
-              <div class="row">
-                  <div class="column column-70"></div>
-                  <div class="column column-30">
-                      <div class="row">
-                          <div class="column">
-                              <ul>
-                                  <li><a href="#">Home</a></li>
-                              </ul>
-                          </div>
-                          <div class="column">
-                              <ul>
-                                  <li><a href="#">About</a></li>
-                              </ul>
-                          </div>
-                          <div class="column">
-                              <ul>
-                                  <li><a href="#">Contact</a></li>
-                              </ul>
-                          </div>
-                          <div class="column">
-                              <ul>
-                                  <li><a href="#">Blog</a></li>
-                              </ul>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="column col-10"></div>
-          </div>
-      </header>
+          
     <section id="search">
       <input
         id="searchInput"
@@ -67,12 +27,9 @@
       <div id="savedSearches"></div>
     </section>
     <section id="display">
-      <div id="about"></div>
+      <div class="mg-container"><div id="about" class="mg-row"></div></div>
       <div id="forecast"></div>
     </section>
-    <button data-toggle="modal" data-target="confirmation-modal">
-      Show modal
-    </button>
     
     <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
