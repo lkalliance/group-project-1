@@ -56,7 +56,7 @@ $(document).ready(function () {
     jSavedContainer.on("click", "button", function (e) {
       e.preventDefault();
       console.log(e.currentTarget.dataset.latlon);
-      getWeather();
+
       let data = {
         name: e.currentTarget.textContent,
       };
