@@ -526,7 +526,10 @@ function drawForecast(jContainer, forecastInfo) {
       let pieces = str.split(":");
       pieces[0] = parseInt(pieces[0]).toString();
       let formatedTime = "";
-      if (pieces[0] <= 12) {
+      if (pieces[0] == 0) {
+        formatedTime += "12";
+      }
+      else if (pieces[0] <= 12) {
         formatedTime += pieces[0];
       } else {
         formatedTime += pieces[0] - 12;
