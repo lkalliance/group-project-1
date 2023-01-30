@@ -42,15 +42,14 @@ $(document).ready(function () {
       e.preventDefault();
 
       // make sure that there is actual text in the search field
-      if (jSearchInput.val().trim() == "") return;
-
-      // empty out the containers
-      clearTheDecks();
-      // start the search process: get latitude and longitude
-      getLatLon(jSearchInput.val());
-      // clear the search field
-      jSearchInput.val("");
+      submitSearch();
     });
+    jSearchInput.on("keyup", function(e) {
+      if (e.keyCode == 13) {
+        e.preventDefault();
+        submitSearch();
+      }
+    })
     jClearBtn.on("click", function (e) {
       e.preventDefault();
       clearSearch(jSavedContainer);
@@ -105,7 +104,19 @@ $(document).ready(function () {
       }
       // hide the confirmation modal
       jConfirmationModal.removeClass("mg-show");
+      // clear the search field
+      jSearchInput.val("");
     });
+
+    function submitSearch() {
+      // make sure that there is actual text in the search field
+      if (jSearchInput.val().trim() == "") return;
+
+      // empty out the containers
+      clearTheDecks();
+      // start the search process: get latitude and longitude
+      getLatLon(jSearchInput.val());
+    }
 
     // Draw areas of the page
     drawSavedSearches(jSavedContainer);
