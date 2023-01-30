@@ -21,7 +21,6 @@
           <div class="columns">
             <input
             id="searchInput"
-            class="column col-12"
             type="text"
             placeholder="city name or zipcode"
             />
@@ -44,7 +43,7 @@
       
     <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
-         <span class="mg-close mg-right" data-action="close"></span>
+         <span id="hideThisSpan" class="mg-close mg-right" data-action="close"></span>
         <h3>
           &nbsp;
           <span class="mg-close mg-right jContainer" data-action="close"></span>
@@ -57,10 +56,10 @@
             >What would you like to call this search?</label
           >
           <input type="text" id="searchName" />
-          <button id="yesBtn" data-correct="yes">
+          <button id="yesBtn" data-correct="yes" class="button button--small">
             <span>Yes, this is correct</span>
           </button>
-          <button id="noBtn" data-correct="no">
+          <button id="noBtn" data-correct="no" class="button button--small button--outline">
             <span>No, this isn't correct</span>
           </button>
         </div>

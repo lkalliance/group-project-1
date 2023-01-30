@@ -12,7 +12,26 @@ header {
   margin-bottom: 4px;
 }
 
+section#search {
+  padding-left: 4px;
+}
 
+#searchInput {
+  width: 98%;
+  margin-left: 4px;
+}
+
+#searchInput,
+#searchName {
+  font-size: .8em;
+  border-radius: 5px;
+  border-color: var(--mg-color-primary);
+  color: var(--mg-color-primary);
+}
+
+#hideThisSpan {
+  display: none;
+}
 
 .forecast-card {
   margin: 0 0 15px;
