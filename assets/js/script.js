@@ -28,8 +28,8 @@ $(document).ready(function () {
 
   // VARIABLES FOR TESTING SETTINGS ON MAP SIZE
   let zoom = 10;
-  let height = 200;
-  let width = 200;
+  let height = 150;
+  let width = 150;
 
   initialize();
 
@@ -48,6 +48,8 @@ $(document).ready(function () {
       clearTheDecks();
       // start the search process: get latitude and longitude
       getLatLon(jSearchInput.val());
+      // clear the search field
+      jSearchInput.val("");
     });
     jClearBtn.on("click", function (e) {
       e.preventDefault();
@@ -259,6 +261,7 @@ function drawSavedSearches(jContainer) {
   for (let i = 0; i < y.length; i++) {
     console.log(y[i]);
     jBtn = $("<button>");
+    jBtn.addClass("button button--small");
     jBtn.text(y[i].name);
     jBtn.attr("data-latlon", y[i].latlon);
     jBtn.attr("data-map", y[i].map);
