@@ -370,6 +370,8 @@ function drawForecast(jContainer, forecastInfo) {
   console.log("Drawing the forecast");
   console.log({ forecastInfo });
 
+  
+
   // iterate over seven days, build cards, and insert
   let jCard, jTitle;
 
@@ -486,3 +488,4 @@ function clearSearch(jContainer) {
   localStorage.setItem("SolunarSearch", "");
   drawSavedSearches(jContainer);
 }
+
