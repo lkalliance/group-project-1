@@ -28,6 +28,13 @@
   background-color: rgb(58, 159, 199);
   text-align: center;
   margin-bottom: 5px;
+  vertical-align: middle;
+}
+.forecast-card .icons img {
+  height: 50px;
+}
+.forecast-card .icons img.moon-icon {
+  height: 36px;
 }
 
 .forecast-card .sun {

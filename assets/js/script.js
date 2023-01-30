@@ -377,6 +377,44 @@ function drawForecast(jContainer, forecastInfo) {
   console.log("Drawing the forecast");
   console.log({ forecastInfo });
 
+  let checkthese = [
+    "sunRise",
+    "sunSet",
+    "moonRise",
+    "moonSet",
+    "major1Start",
+    "major2Start",
+    "minor1Start",
+    "minor2Start",
+  ];
+
+  let convertthese = {
+    sunRise: "Sunrise: ",
+    sunSet: "Sunset: ",
+    moonRise: "Moonrise: ",
+    moonSet: "Moonset: ",
+    major1Start: "Major: ",
+    major2Start: "Major: ",
+    minor1Start: "Minor: ",
+    minor2Start: "Minor: ",
+  };
+
+  let endings = {
+    major1Start: "major1Stop",
+    major2Start: "major2Stop",
+    minor1Start: "minor1Stop",
+    minor2Start: "minor2Stop",
+  };
+
+  let moonPhases = {
+    waxinggibbous: "./assets/images/waxing-gibbous.png",
+    waninggibbous: "./assets/images/waning-gibbous.png",
+    waxingcrescent: "./assets/images/waxing-crescent.png",
+    waningcrescent: "./assets/images/waning-crescent.png",
+    new: "./assets/images/new.png",
+    full: "./assets/images/full.png"
+  }
+
   // iterate over seven days, build cards, and insert
   let jCard, jTitle;
 
@@ -402,10 +440,14 @@ function drawForecast(jContainer, forecastInfo) {
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
     jImageDiv = $("<div>");
-    var iconUrl = `https://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}.png`;
-    var image = document.createElement("img");
-    image.src = iconUrl;
+    let iconUrl = `https://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}.png`;
+    let image = $("<img>");
+    image.attr("src", iconUrl);
+    let moonImage = $("<img>");
+    moonImage.attr("src", moonPhases[forecastInfo.solunar[i].moonPhase.replace(/\s/g, '').toLowerCase()]);
+    moonImage.addClass("moon-icon");
     jImageDiv.append(image);
+    jImageDiv.append(moonImage);
     jImageDiv.addClass("icons");
     js1 = $("<strong>");
     jsp1 = $("<span>");
@@ -436,34 +478,7 @@ function drawForecast(jContainer, forecastInfo) {
     );
     jP4.text("Solunar Periods");
 
-    let checkthese = [
-      "sunRise",
-      "sunSet",
-      "moonRise",
-      "moonSet",
-      "major1Start",
-      "major2Start",
-      "minor1Start",
-      "minor2Start",
-    ];
-
-    let convertthese = {
-      sunRise: "Sunrise: ",
-      sunSet: "Sunset: ",
-      moonRise: "Moonrise: ",
-      moonSet: "Moonset: ",
-      major1Start: "Major: ",
-      major2Start: "Major: ",
-      minor1Start: "Minor: ",
-      minor2Start: "Minor: ",
-    };
-
-    let endings = {
-      major1Start: "major1Stop",
-      major2Start: "major2Stop",
-      minor1Start: "minor1Stop",
-      minor2Start: "minor2Stop",
-    };
+    
 
     let times = [];
     for (let ii = 0; ii < checkthese.length; ii++) {
