@@ -102,20 +102,46 @@ section#search {
   margin-bottom: 15px;
 } 
 
-#about h2 {
+#confirmationContent.modal-content {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#confirmation-modal label {
+  margin-top: 12px;
+  font-size: .9em;
+}
+
+#modalMap {
+  float: left;
+  margin-right: 8px;
+}
+
+#modalMap {
+  width: 150px;
+  height: 150px;
+}
+
+#about h2,
+#confirmation-modal h3 {
   font-weight: bold;
   margin: 0 0 4px;
 }
 #about div {
   float: left;
 }
-#about img {
+#about img,
+#confirmation-modal img {
+  width: 150px;
   margin-right: 6px;
 }
-#about ul {
+#about ul,
+#confirmation-modal ul {
   list-style-type: none;
 }
-#about li {
+#about li,
+#confirmation-modal li {
   margin: 0;
 }
 

@@ -309,8 +309,13 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   let jState = $("<li>");
   let jCountry = $("<li>");
   let jMap = $("<img>");
+  let jMapContainer = $("<div>");
+  jMapContainer.attr("id", "modalMap");
+  jMapContainer.addClass("clearfix");
+  jMapContainer.append(jMap);
   // clear out the info from last time
   jBody.empty();
+  jBody.append(jMapContainer);
   // write the city name in the title and the input field
   jTitle.text(confirmationInfo.city);
   jInput.val(confirmationInfo.city);
@@ -324,7 +329,6 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   // set up the map
   jMap.attr("src", map);
   // append the map and the list
-  jBody.append(jMap);
   jBody.append(jList);
   // encode the yes-button with the data to pass on
   jContainer
