@@ -89,8 +89,7 @@ $(document).ready(function () {
         let items = jConfirmationModal.find("li");
         Object.entries(items).forEach(([key, value]) => {
           if (!isNaN(parseInt(key))) {
-            sections = value.textContent.split(": ");
-            data[sections[0]] = sections[1];
+            data[value.id] = value.textContent;
           }
         });
         drawMainDisplay(jAboutLocContainer, data, mapURL);
@@ -306,8 +305,11 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   let jBody = $("#confirmation-modal .modal-content");
   let jList = $("<ul>");
   let jCounty = $("<li>");
+  jCounty.attr("id","county");
   let jState = $("<li>");
+  jState.attr("id","state");
   let jCountry = $("<li>");
+  jCountry.attr("id","country");
   let jMap = $("<img>");
   let jMapContainer = $("<div>");
   jMapContainer.attr("id", "modalMap");
@@ -320,9 +322,9 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   jTitle.text(confirmationInfo.city);
   jInput.val(confirmationInfo.city);
   // populate the list with stuff
-  jCounty.text("county: " + confirmationInfo.county);
-  jState.text("state: " + confirmationInfo.state);
-  jCountry.text("country: " + confirmationInfo.country);
+  jCounty.text(confirmationInfo.county);
+  jState.text(confirmationInfo.state);
+  jCountry.text(confirmationInfo.country);
   if (confirmationInfo.county) jList.append(jCounty);
   if (confirmationInfo.state) jList.append(jState);
   if (confirmationInfo.country) jList.append(jCountry);
