@@ -70,6 +70,7 @@ $(document).ready(function () {
         data.state = e.currentTarget.getAttribute("data-state");
       }
       drawMainDisplay(jAboutLocContainer, data, e.currentTarget.dataset.map);
+      console.log(data);
       let coordinates = e.currentTarget.dataset.latlon.split(",");
       getWeather(coordinates[0], coordinates[1]);
     });
@@ -128,6 +129,7 @@ $(document).ready(function () {
         return response.json();
       })
       .then(function (data) {
+        console.log(data);
         // grab the specific data from the returned array
         let location = data.results[0];
         // save the latitude and longitude
@@ -302,11 +304,9 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   jCounty.text("county: " + confirmationInfo.county);
   jState.text("state: " + confirmationInfo.state);
   jCountry.text("country: " + confirmationInfo.country);
-  if (confirmationInfo.country_code == "us") {
-    // if the country is US, add the county and state
-    jList.append(jCounty);
-    jList.append(jState);
-  } else jList.append(jCountry);
+  if (confirmationInfo.county) jList.append(jCounty);
+  if (confirmationInfo.state) jList.append(jState);
+  if (confirmationInfo.country) jList.append(jCountry);
   // set up the map
   jMap.attr("src", map);
   // append the map and the list
@@ -330,11 +330,12 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
   console.log("Drawing the main info panel");
   console.log({ mainDisplayInfo });
   jContainer.empty();
-  let jTitle = $("<h3>");
+  let jTitle = $("<h2>");
   let jMap = $("<img>");
   let jList = $("<ul>");
   let jDiv = $("<div>");
 
+  jDiv.addClass("clearfix");
   jTitle.text(mainDisplayInfo.name);
   jContainer.append(jTitle);
   jDiv.append(jMap);
@@ -351,16 +352,18 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
     let jLi1 = $("<li>");
     jLi1.text(mainDisplayInfo.county);
     jList.append(jLi1);
-  } else if (mainDisplayInfo.country) {
-    let jLi1 = $("<li>");
-    jLi1.text(mainDisplayInfo.country);
-    jList.append(jLi1);
   }
   if (mainDisplayInfo.state) {
     let jLi1 = $("<li>");
     jLi1.text(mainDisplayInfo.state);
     jList.append(jLi1);
   }
+  if (mainDisplayInfo.country) {
+    let jLi1 = $("<li>");
+    jLi1.text(mainDisplayInfo.country);
+    jList.append(jLi1);
+  }
+  
   // jDiv.append(jMap);
   // jContainer.append(jTitle);
   // jContainer.append(jDiv);
@@ -599,7 +602,7 @@ function saveSearch(jContainer, latlon, name, info, map) {
   else y = JSON.parse(x);
   // console.log(typeof y);
   y.push(search);
-  // console.log(y);
+  console.log(y);
   localStorage.setItem("SolunarSearch", JSON.stringify(y));
 
   // console.log("Saving the search");
