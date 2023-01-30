@@ -389,14 +389,8 @@ function drawForecast(jContainer, forecastInfo) {
     let jP1 = $("<li>");
     let jP2 = $("<li>");
     let jP3 = $("<li>");
-    let jP4 = $("<p>");
-    let jP5 = $("<p>");
-    let jP6 = $("<p>");
-    let jP7 = $("<p>");
-    let jP8 = $("<p>");
-    let jP9 = $("<p>");
-    let jP10 = $("<p>");
-    let jP11 = $("<p>");
+    let jP4 = $("<h5>");
+
     //add textcontent to elements created
     jTitle.text(dToday.format("DD/MM"));
     // console.log(jTitle.text());
@@ -415,6 +409,7 @@ function drawForecast(jContainer, forecastInfo) {
     // console.log(jP1.text());
     jP2.text("Wind: " + forecastInfo.weather.daily[i].wind_speed + "MPH");
     jP3.text("Pressure: " + forecastInfo.weather.daily[i].pressure + "%");
+    jP4.text("Solunar Periods");
 
     let checkthese = [
       "sunRise",
@@ -449,8 +444,6 @@ function drawForecast(jContainer, forecastInfo) {
     }
 
     times.sort(function (a, b) {
-      console.log("a is " + a);
-      console.log("b is " + b);
       let aTime = breakupTime(a.time);
       let bTime = breakupTime(b.time);
       if (aTime[0] != bTime[0]) return aTime[0] - bTime[0];
@@ -468,6 +461,7 @@ function drawForecast(jContainer, forecastInfo) {
     jList.append(jP2);
     jList.append(jP3);
     jCard.append(jList);
+    jCard.append(jP4);
     let jP;
     for (let ii = 0; ii < times.length; ii++) {
       jP = $("<p>");
@@ -475,14 +469,6 @@ function drawForecast(jContainer, forecastInfo) {
       jCard.append(jP);
     }
 
-    // jCard.append(jP4);
-    // jCard.append(jP5);
-    // jCard.append(jP6);
-    // jCard.append(jP7);
-    // jCard.append(jP8);
-    // jCard.append(jP10);
-    // jCard.append(jP9);
-    // jCard.append(jP11);
     jContainer.append(jCard);
   }
 }
