@@ -328,9 +328,38 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
 
   console.log("Drawing the main info panel");
   console.log({ mainDisplayInfo });
-  let mapimage = $("<img>");
-  mapimage.attr("src", map);
-  jContainer.append(mapimage);
+
+  jContainer.empty();
+  let jTitle = $("<h3>");
+  let jMap = $("<img>");
+  let jList = $("<ul>");
+  let jDiv = $("<div>");
+
+  jTitle.text(mainDisplayInfo.name);
+  jMap.attr("src", map);
+  jTitle.addClass("mg-x12");
+  jDiv.addClass("mg-x6");
+  jList.addClass("mg-x6");
+  jContainer.css("background grey")
+
+  if (mainDisplayInfo.county) {
+    let jLi1 = $("<li>");
+    jLi1.text(mainDisplayInfo.county);
+    jList.append(jLi1);
+  } else if (mainDisplayInfo.country) {
+    let jLi1 = $("<li>");
+    jLi1.text(mainDisplayInfo.country);
+    jList.append(jLi1);
+  }
+  if (mainDisplayInfo.state) {
+    let jLi1 = $("<li>");
+    jLi1.text(mainDisplayInfo.state);
+    jList.append(jLi1);
+  }
+  jDiv.append(jMap);
+  jContainer.append(jTitle);
+  jContainer.append(jDiv);
+  jContainer.append(jList);
 }
 
 function drawForecast(jContainer, forecastInfo) {

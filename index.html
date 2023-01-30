@@ -4,39 +4,39 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     <link rel="stylesheet" href="./assets/css/mgplus.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Moon Fish</title>
   </head>
   <body>
-    <header>
-      <h1>Moon Fish</h1>
-    </header>
-    <section id="search">
+     <section id="search" class="column col-xs-12 col-sm-12 col-md-12 col-lg-4">
       <input
         id="searchInput"
         class="inputvalue"
         type="text"
         placeholder="city name or zipcode"
       />
-      <button id="searchBtn" class="searchBtn">Search</button>
+      <button id="searchBtn" class="searchBtn column col-xs-12 col-sm-12 col-md-12 col-lg-12">Search</button>
       <div>
-        <button id="clearBtn">Clear</button>
         <div id="savedSearches"></div>
+        <button id="clearBtn">Clear</button>
       </div>
+
     </section>
     <section id="display">
-      <div id="about"></div>
+      <div class="mg-container"><div id="about" class="mg-row"></div></div>
       <div id="forecast"></div>
     </section>
-    <button data-toggle="modal" data-target="confirmation-modal">
-      Show modal
-    </button>
+    
     <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
+         <span class="mg-close mg-right" data-action="close"></span>
         <h3>
           (Title of modal here)
-          <span class="mg-close mg-right" data-action="close"></span>
+          <span class="mg-close mg-right jContainer" data-action="close"></span>
         </h3>
         <div>
           <div class="modal-content">
@@ -57,7 +57,7 @@
     </div>
     <!--  -->
 
-    <button data-toggle="modal" data-target="modal-1">About Me</button>
+    <button data-toggle="modal" data-target="modal-1" class="column col-xs-12 col-sm-12 col-md-12 col-lg-4">About Me</button>
     <div class="mg-modal" id="modal-1">
       <div class="mg-modal--content mg-container">
         <h3>
