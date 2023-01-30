@@ -12,89 +12,98 @@
     <title>Moon Fish</title>
   </head>
   <body>
-     <section id="search" class="column col-xs-12 col-sm-12 col-md-12 col-lg-4">
-      <input
-        id="searchInput"
-        class="inputvalue"
-        type="text"
-        placeholder="city name or zipcode"
-      />
-      <button id="searchBtn" class="searchBtn">Search</button>
-      <div id="savedSearches"></div>
-      <div>
-       <div id="savedSearches"></div>
-       <button id="clearBtn">Clear</button>
-      </div>
-
-    </section>
-    <section id="display">
-      <div class="mg-container"><div id="about" class="mg-row"></div></div>
-      <div id="forecast"></div>
-    </section>
-    
-    <div class="mg-modal" id="confirmation-modal">
-      <div class="mg-modal--content mg-container">
-         <span class="mg-close mg-right" data-action="close"></span>
-        <h3>
-          (Title of modal here)
-          <span class="mg-close mg-right jContainer" data-action="close"></span>
-        </h3>
-        <div>
-          <div class="modal-content">
-            (Content of modal here: map, info about search results)
+    <header>
+      <button data-toggle="modal" data-target="modal-1">About Us</button>
+    </header>
+    <main class="container">
+      <div class="columns">
+        <section id="search" class="column col-3 col-md-4 col-sm-12">
+          <input
+          id="searchInput"
+          class="inputvalue"
+          type="text"
+          placeholder="city name or zipcode"
+          />
+          <button id="searchBtn" class="searchBtn">Search</button>
+          <div id="savedSearches"></div>
+          <div>
+            <div id="savedSearches"></div>
+            <button id="clearBtn">Clear</button>
           </div>
-          <label for="searchName"
-            >What would you like to call this search?</label
-          >
-          <input type="text" id="searchName" />
-          <button id="yesBtn" data-correct="yes">
-            <span>Yes, this is correct</span>
-          </button>
-          <button id="noBtn" data-correct="no">
-            <span>No, this isn't correct</span>
-          </button>
-        </div>
+          
+        </section>
+        <section id="display" class="column col-9 col-md-8 col-sm-12">
+          <div id="about">
+          </div>
+          <div class="container">
+            <div id="forecast" class="columns">
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-    <!--  -->
-
-    <button data-toggle="modal" data-target="modal-1" class="column col-xs-12 col-sm-12 col-md-12 col-lg-4">About Me</button>
-    <div class="mg-modal" id="modal-1">
-      <div class="mg-modal--content mg-container">
-        <h3>
-          Moon Fish
+    </main>
+      
+      <div class="mg-modal" id="confirmation-modal">
+        <div class="mg-modal--content mg-container">
           <span class="mg-close mg-right" data-action="close"></span>
-        </h3>
-        <div>
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse quo
-            est, enim, reprehenderit cumque consectetur maxime delectus fugit,
-            nostrum repudiandae libero laborum voluptas! Eligendi repellat,
-            minus commodi, odit suscipit distinctio facilis aspernatur magnam,
-            unde nulla nemo officia quisquam laborum! Deserunt autem,
-            repudiandae dicta impedit eum unde id consequuntur molestias optio
-            officiis suscipit necessitatibus quasi voluptatum ab expedita
-            numquam veniam maiores.
-          </p>
-          <ul>
-            <li>
-              <strong>city:</strong>
-            </li>
-            <li>
-              <strong>latlon:</strong>
+          <h3>
+            (Title of modal here)
+            <span class="mg-close mg-right jContainer" data-action="close"></span>
+          </h3>
+          <div>
+            <div class="modal-content">
+              (Content of modal here: map, info about search results)
+            </div>
+            <label for="searchName"
+            >What would you like to call this search?</label
+            >
+            <input type="text" id="searchName" />
+            <button id="yesBtn" data-correct="yes">
+              <span>Yes, this is correct</span>
+            </button>
+            <button id="noBtn" data-correct="no">
+              <span>No, this isn't correct</span>
+            </button>
+          </div>
+        </div>
+      </div>      
+      
+      <div class="mg-modal" id="modal-1">
+        <div class="mg-modal--content mg-container">
+          <h3>
+            Moon Fish
+            <span class="mg-close mg-right" data-action="close"></span>
+          </h3>
+          <div>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse quo
+              est, enim, reprehenderit cumque consectetur maxime delectus fugit,
+              nostrum repudiandae libero laborum voluptas! Eligendi repellat,
+              minus commodi, odit suscipit distinctio facilis aspernatur magnam,
+              unde nulla nemo officia quisquam laborum! Deserunt autem,
+              repudiandae dicta impedit eum unde id consequuntur molestias optio
+              officiis suscipit necessitatibus quasi voluptatum ab expedita
+              numquam veniam maiores.
+            </p>
+            <ul>
               <li>
-                <strong>county:</strong>
+                <strong>city:</strong>
               </li>
-            </li>
-          </ul>
+              <li>
+                <strong>latlon:</strong>
+                <li>
+                  <strong>county:</strong>
+                </li>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-    <script src="./assets/js/mgplus.js"></script>
-    <script src="./assets/js/jQuery.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+      <script src="./assets/js/mgplus.js"></script>
+      <script src="./assets/js/jQuery.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>

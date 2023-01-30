@@ -337,10 +337,10 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
 
   jTitle.text(mainDisplayInfo.name);
   jMap.attr("src", map);
-  jTitle.addClass("mg-x12");
-  jDiv.addClass("mg-x6");
-  jList.addClass("mg-x6");
-  jContainer.css("background grey");
+  // jTitle.addClass("mg-x12");
+  // jDiv.addClass("mg-x6");
+  // jList.addClass("mg-x6");
+  // jContainer.css("background grey");
 
   if (mainDisplayInfo.county) {
     let jLi1 = $("<li>");
