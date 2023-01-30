@@ -1,7 +1,17 @@
-.forecast-card {
-  background-color: aqua;
+.forecast-card h3,
+.forecast-card h5 {
+  font-weight: bold;
 }
-
+.forecast-card ul {
+  list-style-type: none;
+}
+.forecast-card li {
+  border-bottom: 1px solid #cccccc;
+}
+.forecast-card .icons {
+  background-color: rgb(58, 159, 199);
+  text-align: center;
+}
 /* #about {
   display: flex;
   justify-content: center;
@@ -15,7 +25,7 @@
   border-style: solid;
   border-radius: 5px;
   border-width: 2px;
-  background-color:rgb(199, 188, 188);
+  background-color: rgb(199, 188, 188);
   text-align: center;
 }
 #about ul {
@@ -27,11 +37,10 @@
   border-color: black;
   border-radius: 20px;
   border-width: 2px;
-  background-color:rgb(199, 188, 188);
+  background-color: rgb(199, 188, 188);
   padding: 20px;
-  }
+}
 
 #about img {
   margin: 20px;
 }
-
