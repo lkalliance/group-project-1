@@ -394,16 +394,10 @@ function drawForecast(jContainer, forecastInfo) {
     let jP1 = $("<li>");
     let jP2 = $("<li>");
     let jP3 = $("<li>");
-    let jP4 = $("<p>");
-    let jP5 = $("<p>");
-    let jP6 = $("<p>");
-    let jP7 = $("<p>");
-    let jP8 = $("<p>");
-    let jP9 = $("<p>");
-    let jP10 = $("<p>");
-    let jP11 = $("<p>");
+    let jP4 = $("<h5>");
+
     //add textcontent to elements created
-    jTitle.text(dToday.format("DD/MM"));
+    jTitle.text(dToday.format("MMM D"));
     // console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
@@ -418,8 +412,15 @@ function drawForecast(jContainer, forecastInfo) {
         "° F"
     );
     // console.log(jP1.text());
-    jP2.text("Wind: " + forecastInfo.weather.daily[i].wind_speed + "MPH");
-    jP3.text("Pressure: " + forecastInfo.weather.daily[i].pressure + "%");
+    jP2.text(
+      "Wind: " + Math.round(forecastInfo.weather.daily[i].wind_speed) + "MPH"
+    );
+    jP3.text(
+      "Pressure: " +
+        Math.round(forecastInfo.weather.daily[i].pressure / 33.86387) +
+        " inHg"
+    );
+    jP4.text("Solunar Periods");
 
     let checkthese = [
       "sunRise",
@@ -443,19 +444,30 @@ function drawForecast(jContainer, forecastInfo) {
       minor2Start: "Minor: ",
     };
 
+    let endings = {
+      major1Start: "major1Stop",
+      major2Start: "major2Stop",
+      minor1Start: "minor1Stop",
+      minor2Start: "minor2Stop",
+    };
+
     let times = [];
     for (let ii = 0; ii < checkthese.length; ii++) {
       if (forecastInfo.solunar[i][checkthese[ii]]) {
-        times.push({
+        let obj = {
           name: checkthese[ii],
           time: forecastInfo.solunar[i][checkthese[ii]],
-        });
+        };
+        if (endings[checkthese[ii]]) {
+          obj.endtime = forecastInfo.solunar[i][endings[checkthese[ii]]];
+        }
+        times.push(obj);
       }
     }
 
+    console.log(times);
+
     times.sort(function (a, b) {
-      console.log("a is " + a);
-      console.log("b is " + b);
       let aTime = breakupTime(a.time);
       let bTime = breakupTime(b.time);
       if (aTime[0] != bTime[0]) return aTime[0] - bTime[0];
@@ -465,6 +477,19 @@ function drawForecast(jContainer, forecastInfo) {
     function breakupTime(str) {
       return [parseInt(str.split(":")[0]), parseInt(str.split(":")[1])];
     }
+    function convertTime(str) {
+      let pieces = str.split(":");
+      pieces[0] = parseInt(pieces[0]).toString();
+      let formatedTime = "";
+      if (pieces[0] <= 12) {
+        formatedTime += pieces[0];
+      } else {
+        formatedTime += pieces[0] - 12;
+      }
+      formatedTime += ":" + pieces[1] + " ";
+      formatedTime += pieces[0] > 11 ? "pm" : "am";
+      return formatedTime;
+    }
 
     //append
     jCard.append(jTitle);
@@ -473,21 +498,18 @@ function drawForecast(jContainer, forecastInfo) {
     jList.append(jP2);
     jList.append(jP3);
     jCard.append(jList);
-    let jP;
+    jCard.append(jP4);
+    let jP, range;
     for (let ii = 0; ii < times.length; ii++) {
       jP = $("<p>");
-      jP.text(convertthese[times[ii].name] + times[ii].time);
+      range = convertthese[times[ii].name] + convertTime(times[ii].time);
+      if (endings[times[ii].name]) {
+        range += " to " + convertTime(times[ii].endtime);
+      }
+      jP.text(range);
       jCard.append(jP);
     }
 
-    // jCard.append(jP4);
-    // jCard.append(jP5);
-    // jCard.append(jP6);
-    // jCard.append(jP7);
-    // jCard.append(jP8);
-    // jCard.append(jP10);
-    // jCard.append(jP9);
-    // jCard.append(jP11);
     jContainer.append(jCard);
   }
 }
