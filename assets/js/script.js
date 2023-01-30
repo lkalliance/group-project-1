@@ -216,6 +216,7 @@ $(document).ready(function () {
         dDate.format("YYYYMMDD") +
         "," +
         offset;
+
       solunarCalls.push(thisCall);
     }
 
@@ -377,6 +378,8 @@ function drawForecast(jContainer, forecastInfo) {
   console.log("Drawing the forecast");
   console.log({ forecastInfo });
 
+  jContainer.empty();
+
   let checkthese = [
     "sunRise",
     "sunSet",
@@ -411,6 +414,7 @@ function drawForecast(jContainer, forecastInfo) {
     waninggibbous: "./assets/images/waning-gibbous.png",
     waxingcrescent: "./assets/images/waxing-crescent.png",
     waningcrescent: "./assets/images/waning-crescent.png",
+    quarter: "./assets/images/last-quarter.png",
     new: "./assets/images/new.png",
     full: "./assets/images/full.png"
   }
@@ -444,7 +448,19 @@ function drawForecast(jContainer, forecastInfo) {
     let image = $("<img>");
     image.attr("src", iconUrl);
     let moonImage = $("<img>");
-    moonImage.attr("src", moonPhases[forecastInfo.solunar[i].moonPhase.replace(/\s/g, '').toLowerCase()]);
+
+    let phase = forecastInfo.weather.daily[i].moon_phase;
+    let moonImgSrc;
+    if(phase == 0 || phase == 1) moonImgSrc = "./assets/images/new.png";
+    else if (phase == .5) moonImgSrc = "./assets/images/full.png";
+    else if (phase == .25) moonImgSrc = "./assets/images/first-quarter.png";
+    else if (phase == .75) moonImgSrc = "./assets/images/last-quarter.png";
+    else if (phase > 0 && phase < .25) moonImgSrc = "./assets/images/waxing-crescent.png";
+    else if (phase > .25 && phase < .5) moonImgSrc = "./assets/images/waxing-gibbous.png";
+    else if (phase > .5 && phase < .75) moonImgSrc = "./assets/images/waning-gibbous.png";
+    else moonImgSrc = "./assets/images/waning-crescent.png";
+
+    moonImage.attr("src", moonImgSrc);
     moonImage.addClass("moon-icon");
     jImageDiv.append(image);
     jImageDiv.append(moonImage);
