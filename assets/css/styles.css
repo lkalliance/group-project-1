@@ -145,3 +145,40 @@ section#search {
   margin: 0;
 }
 
+
+@media screen and (max-width: 480px) {
+  #display h2 {
+    font-size: 1.5em;
+    margin-top: 6px;
+  }
+
+  forecast-card h4 {
+    font-size: 1em
+  }
+
+  #about img {
+    width: 100px;
+    height: 100px;
+  }
+
+  .forecast-card .icons {
+    background-color: rgb(58, 159, 199);
+    text-align: center;
+    margin-bottom: 5px;
+    line-height: .5em;
+    position: relative;
+    height: 40px;
+  }
+  .forecast-card .icons img {
+    display: inline-block;
+    height: 50px;
+    position: absolute;
+    top: -6px;
+    right: 50%;
+  }
+  .forecast-card .icons img.moon-icon {
+    height: 30px;
+    top: 4px;
+    left: 50%;
+  }
+}
