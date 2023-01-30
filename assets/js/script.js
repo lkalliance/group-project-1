@@ -339,7 +339,7 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
   jTitle.addClass("mg-x12");
   jDiv.addClass("mg-x6");
   jList.addClass("mg-x6");
-  jContainer.css("background grey")
+  jContainer.css("background grey");
 
   if (mainDisplayInfo.county) {
     let jLi1 = $("<li>");
@@ -415,14 +415,51 @@ function drawForecast(jContainer, forecastInfo) {
     // console.log(jP1.text());
     jP2.text("Wind: " + forecastInfo.weather.daily[i].wind_speed + "MPH");
     jP3.text("Pressure: " + forecastInfo.weather.daily[i].pressure + "%");
-    jP4.text("Sunrise: " + forecastInfo.solunar[i].sunRise);
-    jP5.text("Sunrise: " + forecastInfo.solunar[i].sunSet);
-    jP6.text("Moonrise: " + forecastInfo.solunar[i].moonRise);
-    jP7.text("Moonset: " + forecastInfo.solunar[i].moonSet);
-    jP8.text("Major: " + forecastInfo.solunar[i].major1Start);
-    jP9.text("Minor: " + forecastInfo.solunar[i].minor1Start);
-    jP10.text("Major: " + forecastInfo.solunar[i].major2Start);
-    jP11.text("Minor: " + forecastInfo.solunar[i].minor2Start);
+
+    let checkthese = [
+      "sunRise",
+      "sunSet",
+      "moonRise",
+      "moonSet",
+      "major1Start",
+      "major2Start",
+      "minor1Start",
+      "minor2Start",
+    ];
+
+    let convertthese = {
+      sunRise: "Sunrise: ",
+      sunSet: "Sunset: ",
+      moonRise: "Moonrise: ",
+      moonSet: "Moonset: ",
+      major1Start: "Major: ",
+      major2Start: "Major: ",
+      minor1Start: "Minor: ",
+      minor2Start: "Minor: ",
+    };
+
+    let times = [];
+    for (let ii = 0; ii < checkthese.length; ii++) {
+      if (forecastInfo.solunar[i][checkthese[ii]]) {
+        times.push({
+          name: checkthese[ii],
+          time: forecastInfo.solunar[i][checkthese[ii]],
+        });
+      }
+    }
+
+    times.sort(function (a, b) {
+      console.log("a is " + a);
+      console.log("b is " + b);
+      let aTime = breakupTime(a.time);
+      let bTime = breakupTime(b.time);
+      if (aTime[0] != bTime[0]) return aTime[0] - bTime[0];
+      else return aTime[1] - bTime[1];
+    });
+
+    function breakupTime(str) {
+      return [parseInt(str.split(":")[0]), parseInt(str.split(":")[1])];
+    }
 
     //append
     jCard.append(jTitle);
@@ -431,14 +468,21 @@ function drawForecast(jContainer, forecastInfo) {
     jList.append(jP2);
     jList.append(jP3);
     jCard.append(jList);
-    jCard.append(jP4);
-    jCard.append(jP5);
-    jCard.append(jP6);
-    jCard.append(jP7);
-    jCard.append(jP8);
-    jCard.append(jP10);
-    jCard.append(jP9);
-    jCard.append(jP11);
+    let jP;
+    for (let ii = 0; ii < times.length; ii++) {
+      jP = $("<p>");
+      jP.text(convertthese[times[ii].name] + times[ii].time);
+      jCard.append(jP);
+    }
+
+    // jCard.append(jP4);
+    // jCard.append(jP5);
+    // jCard.append(jP6);
+    // jCard.append(jP7);
+    // jCard.append(jP8);
+    // jCard.append(jP10);
+    // jCard.append(jP9);
+    // jCard.append(jP11);
     jContainer.append(jCard);
   }
 }
@@ -454,6 +498,9 @@ function saveSearch(jContainer, latlon, name, info, map) {
   // parameter "name" is the user's label for the button
   // //
   // console.log(info);
+  if (!validateSearch(name)) {
+    return;
+  }
   let search = {
     name: name,
     latlon: latlon,
@@ -487,4 +534,20 @@ function saveSearch(jContainer, latlon, name, info, map) {
 function clearSearch(jContainer) {
   localStorage.setItem("SolunarSearch", "");
   drawSavedSearches(jContainer);
+}
+function validateSearch(name) {
+  console.log(name);
+  let x = localStorage.getItem("SolunarSearch");
+  console.log(x);
+  if (!x) {
+    return true;
+  }
+  let y = JSON.parse(x);
+  console.log(y);
+  for (let i = 0; i < y.length; i++) {
+    if (name.toLowerCase() == y[i].name.toLowerCase()) {
+      return false;
+    }
+  }
+  return true;
 }
