@@ -386,8 +386,8 @@ function drawForecast(jContainer, forecastInfo) {
     let dToday = dayjs.unix(date);
     // create the card
     jCard = $("<div>");
-    jCard.addClass("forecast-card column col-xl-3 col-lg-4 col-md-12");
-    jTitle = $("<h3>");
+    jCard.addClass("forecast-card column col-3 col-xl-4 col-md-6 col-xs-12");
+    jTitle = $("<h4>");
     jList = $("<ul>");
     // create the card elements
 
@@ -402,7 +402,7 @@ function drawForecast(jContainer, forecastInfo) {
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
     jImageDiv = $("<div>");
-    var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}.png`;
+    var iconUrl = `https://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}.png`;
     var image = document.createElement("img");
     image.src = iconUrl;
     jImageDiv.append(image);
@@ -521,6 +521,8 @@ function drawForecast(jContainer, forecastInfo) {
         range += " to " + convertTime(times[ii].endtime);
       }
       jP.text(range);
+      if(times[ii].name.toLowerCase().includes("moon")) jP.addClass("moon");
+      else if(times[ii].name.toLowerCase().includes("sun")) jP.addClass("sun");
       jCard.append(jP);
     }
 

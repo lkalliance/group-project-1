@@ -1,16 +1,51 @@
-.forecast-card h3,
+.forecast-card {
+  margin: 0 0 15px;
+}
+
+.forecast-card h4,
 .forecast-card h5 {
   font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.forecast-card p {
+  font-size: .9em;
+  line-height: 1.25em;
+  margin: 0;
 }
 .forecast-card ul {
   list-style-type: none;
+  font-size: .9em;
+  line-height: 1em;
+  margin: 0 0 8px;
 }
 .forecast-card li {
   border-bottom: 1px solid #cccccc;
+  padding: 4px 0;
+  margin: 0;
 }
 .forecast-card .icons {
   background-color: rgb(58, 159, 199);
   text-align: center;
+  margin-bottom: 5px;
+}
+
+.forecast-card .sun {
+  background-color: rgb(253, 236, 160);
+  color: rgb(203, 155, 42);
+  text-align: right;
+  font-size: .75em;
+  padding: 3px 6px;
+  margin: 2px 0;
+}
+
+.forecast-card .moon {
+  background-color: rgb(225, 225, 225);
+  color: rgb(130, 130, 130);
+  text-align: right;
+  font-size: .75em;
+  padding: 3px 6px;
+  margin: 2px 0;
 }
 /* #about {
   display: flex;
