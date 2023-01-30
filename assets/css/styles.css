@@ -2,13 +2,13 @@
   background-color: aqua;
 }
 
-#about {
+/* #about {
   display: flex;
   justify-content: center;
   margin: 20px;
   border: 2px;
   border-color: black;
-}
+} */
 #about h3 {
   justify-content: center;
   font-weight: bold;
