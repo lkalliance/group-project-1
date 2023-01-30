@@ -28,13 +28,21 @@
   background-color: rgb(58, 159, 199);
   text-align: center;
   margin-bottom: 5px;
-  vertical-align: middle;
-}
-.forecast-card .icons img {
+  line-height: .5em;
+  position: relative;
   height: 50px;
 }
+.forecast-card .icons img {
+  display: inline-block;
+  height: 60px;
+  position: absolute;
+  top: -6px;
+  right: 50%;
+}
 .forecast-card .icons img.moon-icon {
-  height: 36px;
+  height: 40px;
+  top: 4px;
+  left: 50%;
 }
 
 .forecast-card .sun {
@@ -61,6 +69,7 @@
 
 #about h2 {
   font-weight: bold;
+  margin: 0 0 4px;
 }
 #about div {
   float: left;
