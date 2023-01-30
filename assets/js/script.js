@@ -386,7 +386,7 @@ function drawForecast(jContainer, forecastInfo) {
     let dToday = dayjs.unix(date);
     // create the card
     jCard = $("<div>");
-    jCard.addClass("forecast-card");
+    jCard.addClass("forecast-card column col-xl-3 col-lg-4 col-md-12");
     jTitle = $("<h3>");
     jList = $("<ul>");
     // create the card elements
@@ -401,16 +401,30 @@ function drawForecast(jContainer, forecastInfo) {
     // console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
-    var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}@2x.png`;
+    jImageDiv = $("<div>");
+    var iconUrl = `http://openweathermap.org/img/wn/${forecastInfo["weather"]["daily"][i]["weather"][0]["icon"]}.png`;
     var image = document.createElement("img");
     image.src = iconUrl;
-    jP1.text(
-      "Temp: " +
-        Math.round(forecastInfo.weather.daily[i].temp.min) +
+    jImageDiv.append(image);
+    jImageDiv.addClass("icons");
+    js1 = $("<strong>");
+    jsp1 = $("<span>");
+    js1.text("Temp: ");
+    jsp1.text(
+      Math.round(forecastInfo.weather.daily[i].temp.min) +
         " to " +
         Math.round(forecastInfo.weather.daily[i].temp.max) +
         "° F"
     );
+    jP1.append(js1);
+    jP1.append(jsp1);
+    // jP1.text(
+    //   "Temp: " +
+    //     Math.round(forecastInfo.weather.daily[i].temp.min) +
+    //     " to " +
+    //     Math.round(forecastInfo.weather.daily[i].temp.max) +
+    //     "° F"
+    // );
     // console.log(jP1.text());
     jP2.text(
       "Wind: " + Math.round(forecastInfo.weather.daily[i].wind_speed) + "MPH"
@@ -493,7 +507,7 @@ function drawForecast(jContainer, forecastInfo) {
 
     //append
     jCard.append(jTitle);
-    jCard.append(image);
+    jCard.append(jImageDiv);
     jList.append(jP1);
     jList.append(jP2);
     jList.append(jP3);
