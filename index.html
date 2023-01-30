@@ -12,25 +12,35 @@
     <title>Moon Fish</title>
   </head>
   <body>
-     <section id="search" class="column col-xs-12 col-sm-12 col-md-12 col-lg-4">
-      <input
-        id="searchInput"
-        class="inputvalue"
-        type="text"
-        placeholder="city name or zipcode"
-      />
-      <button id="searchBtn" class="searchBtn">Search</button>
-      <div id="savedSearches"></div>
-      <div>
-       <div id="savedSearches"></div>
-       <button id="clearBtn">Clear</button>
+    <header>      
+      <button data-toggle="modal" data-target="modal-1" class="button button--small">About</button>
+    </header>
+    <main class="container">
+      <div class="columns">
+        <section id="search" class="column col-3 col-lg-4 col-sm-12">
+          <input
+          id="searchInput"
+          class="inputvalue"
+          type="text"
+          placeholder="city name or zipcode"
+          />
+          <button id="searchBtn" class="searchBtn">Search</button>
+          <div id="savedSearches"></div>
+          <div>
+            <div id="savedSearches"></div>
+            <button id="clearBtn">Clear</button>
+          </div>
+        </section>
+        <section id="display" class="column col-9 col-lg-8 col-sm-12">
+          <div id="about">
+          </div>
+          <div class="container">
+            <div id="forecast" class="columns"></div>
+          </div>
+        </section>
       </div>
-    </section>
-    <section id="display">
-      <div class="mg-container"><div id="about" class="mg-row"></div></div>
-      <div id="forecast"></div>
-    </section>
-    
+    </main>
+      
     <div class="mg-modal" id="confirmation-modal">
       <div class="mg-modal--content mg-container">
          <span class="mg-close mg-right" data-action="close"></span>
@@ -57,7 +67,6 @@
     </div>
     <!--  -->
 
-    <button data-toggle="modal" data-target="modal-1" class="column col-xs-12 col-sm-12 col-md-12 col-lg-4">About Me</button>
     <div class="mg-modal" id="modal-1">
       <div class="mg-modal--content mg-container">
         <h3>
