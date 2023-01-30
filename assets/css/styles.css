@@ -1,46 +1,186 @@
-.forecast-card h3,
+header {
+  background-color: navy;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+#savedSearches .button.button--small {
+  height: 2rem;
+  font-size: .5em;
+  line-height: .6em;
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+section#search {
+  padding-left: 4px;
+}
+
+#searchInput {
+  width: 98%;
+  margin-left: 4px;
+}
+
+#searchInput,
+#searchName {
+  font-size: .8em;
+  border-radius: 5px;
+  border-color: var(--mg-color-primary);
+  color: var(--mg-color-primary);
+}
+
+#hideThisSpan {
+  display: none;
+}
+
+.forecast-card {
+  margin: 0 0 15px;
+}
+
+.forecast-card h4,
 .forecast-card h5 {
   font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.forecast-card p {
+  font-size: .9em;
+  line-height: 1.25em;
+  margin: 0;
 }
 .forecast-card ul {
   list-style-type: none;
+  font-size: .9em;
+  line-height: 1em;
+  margin: 0 0 8px;
 }
 .forecast-card li {
   border-bottom: 1px solid #cccccc;
+  padding: 4px 0;
+  margin: 0;
 }
 .forecast-card .icons {
   background-color: rgb(58, 159, 199);
   text-align: center;
+  margin-bottom: 5px;
+  line-height: .5em;
+  position: relative;
+  height: 50px;
 }
-/* #about {
-  display: flex;
-  justify-content: center;
-  margin: 20px;
-  border: 2px;
-  border-color: black;
-} */
-#about h3 {
-  justify-content: center;
-  font-weight: bold;
-  border-style: solid;
-  border-radius: 5px;
-  border-width: 2px;
-  background-color: rgb(199, 188, 188);
-  text-align: center;
+.forecast-card .icons img {
+  display: inline-block;
+  height: 60px;
+  position: absolute;
+  top: -6px;
+  right: 50%;
 }
-#about ul {
-  list-style-type: none;
-  text-align: center;
-  font-size: larger;
-  font-weight: bold;
-  border-style: solid;
-  border-color: black;
-  border-radius: 20px;
-  border-width: 2px;
-  background-color: rgb(199, 188, 188);
-  padding: 20px;
+.forecast-card .icons img.moon-icon {
+  height: 40px;
+  top: 4px;
+  left: 50%;
 }
 
-#about img {
-  margin: 20px;
+.forecast-card .sun {
+  background-color: rgb(253, 236, 160);
+  color: rgb(203, 155, 42);
+  text-align: right;
+  font-size: .75em;
+  padding: 3px 6px;
+  margin: 2px 0;
+}
+
+.forecast-card .moon {
+  background-color: rgb(225, 225, 225);
+  color: rgb(130, 130, 130);
+  text-align: right;
+  font-size: .75em;
+  padding: 3px 6px;
+  margin: 2px 0;
+}
+#about {
+  margin-left: 4px;
+  margin-bottom: 15px;
+} 
+
+#confirmationContent.modal-content {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#confirmation-modal label {
+  margin-top: 12px;
+  font-size: .9em;
+}
+
+#modalMap {
+  float: left;
+  margin-right: 8px;
+}
+
+#modalMap img {
+  width: 150px;
+  height: 150px;
+}
+
+#about h2,
+#confirmation-modal h3 {
+  font-weight: bold;
+  margin: 0 0 4px;
+}
+#about div {
+  float: left;
+}
+#about img,
+#confirmation-modal img {
+  width: 150px;
+  margin-right: 6px;
+}
+#about ul,
+#confirmation-modal ul {
+  list-style-type: none;
+}
+#about li,
+#confirmation-modal li {
+  margin: 0;
+}
+
+
+@media screen and (max-width: 480px) {
+  #display h2 {
+    font-size: 1.5em;
+    margin-top: 6px;
+  }
+
+  forecast-card h4 {
+    font-size: 1em
+  }
+
+  #about img,
+  #modalMap img
+   {
+    width: 100px;
+    height: 100px;
+  }
+
+  .forecast-card .icons {
+    background-color: rgb(58, 159, 199);
+    text-align: center;
+    margin-bottom: 5px;
+    line-height: .5em;
+    position: relative;
+    height: 40px;
+  }
+  .forecast-card .icons img {
+    display: inline-block;
+    height: 50px;
+    position: absolute;
+    top: -6px;
+    right: 50%;
+  }
+  .forecast-card .icons img.moon-icon {
+    height: 30px;
+    top: 4px;
+    left: 50%;
+  }
 }
