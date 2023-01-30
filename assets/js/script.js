@@ -335,10 +335,15 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
   let jDiv = $("<div>");
 
   jTitle.text(mainDisplayInfo.name);
+  jContainer.append(jTitle);
+  jDiv.append(jMap);
+  jContainer.append(jDiv);
+  jContainer.append(jList);
+
   jMap.attr("src", map);
-  jTitle.addClass("mg-x12");
-  jDiv.addClass("mg-x6");
-  jList.addClass("mg-x6");
+  // jTitle.addClass("mg-x12");
+  // jDiv.addClass("mg-x6");
+  // jList.addClass("mg-x6");
   jContainer.css("background grey");
 
   if (mainDisplayInfo.county) {
@@ -355,13 +360,13 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
     jLi1.text(mainDisplayInfo.state);
     jList.append(jLi1);
   }
-  jDiv.append(jMap);
-  jContainer.append(jTitle);
-  jContainer.append(jDiv);
-  jContainer.append(jList);
-  let mapimage = $("<img>");
-  mapimage.attr("src", map);
-  jContainer.append(mapimage);
+  // jDiv.append(jMap);
+  // jContainer.append(jTitle);
+  // jContainer.append(jDiv);
+  // jContainer.append(jList);
+  // let mapimage = $("<img>");
+  // mapimage.attr("src", map);
+  // jContainer.append(mapimage);
 }
 
 function drawForecast(jContainer, forecastInfo) {
