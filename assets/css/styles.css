@@ -89,6 +89,13 @@ section#search {
   color: rgb(62, 107, 151);
 }
 
+#confirmation-modal li#suggestion {
+  margin-top: 10px;
+  font-style: italic;
+  font-size: 0.9em;
+  line-height: 1em;
+}
+
 #hideThisSpan {
   display: none;
 }
@@ -249,7 +256,10 @@ section#search {
     height: 100px;
   }
 
-  
+  #confirmation-modal li {
+    font-size: 0.9em;
+    line-height: 1.2em;
+  }
 
   .forecast-card .icons {
     background-color: rgb(58, 159, 199);
