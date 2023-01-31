@@ -295,6 +295,8 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   jState.attr("id", "state");
   let jCountry = $("<li>");
   jCountry.attr("id", "country");
+  let jSuggestion = $("<li>");
+  jSuggestion.attr("id","suggestion");
   let jMap = $("<img>");
   let jMapContainer = $("<div>");
   jMapContainer.attr("id", "modalMap");
@@ -302,6 +304,7 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   jMapContainer.append(jMap);
   // clear out the info from last time
   jBody.empty();
+  jBody.append(jTitle);
   jBody.append(jMapContainer);
   // write the city name in the title and the input field
   jTitle.text(confirmationInfo.city);
@@ -313,6 +316,8 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   if (confirmationInfo.county) jList.append(jCounty);
   if (confirmationInfo.state) jList.append(jState);
   if (confirmationInfo.country) jList.append(jCountry);
+  jSuggestion.text("Not the right result? Try a more detailed search including any combination of city, county, state or zip code.");
+  jList.append(jSuggestion);
   // set up the map
   jMap.attr("src", map);
   // append the map and the list
@@ -334,20 +339,18 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
 
   jContainer.empty();
   let jTitle = $("<h2>");
+  jTitle.text(mainDisplayInfo.name);
   let jMap = $("<img>");
   let jList = $("<ul>");
   let jDiv = $("<div>");
-
   jDiv.addClass("clearfix");
-  jTitle.text(mainDisplayInfo.name);
+
   jContainer.append(jTitle);
   jDiv.append(jMap);
   jContainer.append(jDiv);
   jContainer.append(jList);
 
   jMap.attr("src", map);
-
-  jContainer.css("background grey");
 
   if (mainDisplayInfo.county) {
     let jLi1 = $("<li>");
