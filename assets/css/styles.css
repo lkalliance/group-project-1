@@ -12,8 +12,8 @@ header img{
 
 #savedSearches .button.button--small {
   height: 2rem;
-  font-size: .5em;
-  line-height: .6em;
+  font-size: 0.5em;
+  line-height: 0.6em;
   margin-right: 4px;
   margin-bottom: 4px;
 }
@@ -29,7 +29,7 @@ section#search {
 
 #searchInput,
 #searchName {
-  font-size: .8em;
+  font-size: 0.8em;
   border-radius: 5px;
   border-color: var(--mg-color-primary);
   color: var(--mg-color-primary);
@@ -50,13 +50,13 @@ section#search {
 }
 
 .forecast-card p {
-  font-size: .9em;
+  font-size: 0.9em;
   line-height: 1.25em;
   margin: 0;
 }
 .forecast-card ul {
   list-style-type: none;
-  font-size: .9em;
+  font-size: 0.9em;
   line-height: 1em;
   margin: 0 0 8px;
 }
@@ -69,7 +69,7 @@ section#search {
   background-color: rgb(58, 159, 199);
   text-align: center;
   margin-bottom: 5px;
-  line-height: .5em;
+  line-height: 0.5em;
   position: relative;
   height: 50px;
 }
@@ -90,7 +90,7 @@ section#search {
   background-color: rgb(253, 236, 160);
   color: rgb(203, 155, 42);
   text-align: right;
-  font-size: .75em;
+  font-size: 0.75em;
   padding: 3px 6px;
   margin: 2px 0;
 }
@@ -99,14 +99,14 @@ section#search {
   background-color: rgb(225, 225, 225);
   color: rgb(130, 130, 130);
   text-align: right;
-  font-size: .75em;
+  font-size: 0.75em;
   padding: 3px 6px;
   margin: 2px 0;
 }
 #about {
   margin-left: 4px;
   margin-bottom: 15px;
-} 
+}
 
 #confirmationContent.modal-content {
   border: none;
@@ -116,7 +116,7 @@ section#search {
 
 #confirmation-modal label {
   margin-top: 12px;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 
 #modalMap {
@@ -151,8 +151,6 @@ section#search {
   margin: 0;
 }
 
-
-
 @media screen and (max-width: 480px) {
   #display h2 {
     font-size: 1.5em;
@@ -160,12 +158,11 @@ section#search {
   }
 
   forecast-card h4 {
-    font-size: 1em
+    font-size: 1em;
   }
 
   #about img,
-  #modalMap img
-   {
+  #modalMap img {
     width: 100px;
     height: 100px;
   }
@@ -174,7 +171,7 @@ section#search {
     background-color: rgb(58, 159, 199);
     text-align: center;
     margin-bottom: 5px;
-    line-height: .5em;
+    line-height: 0.5em;
     position: relative;
     height: 40px;
   }

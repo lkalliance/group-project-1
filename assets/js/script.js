@@ -44,19 +44,18 @@ $(document).ready(function () {
       // make sure that there is actual text in the search field
       submitSearch();
     });
-    jSearchInput.on("keyup", function(e) {
+    jSearchInput.on("keyup", function (e) {
       if (e.keyCode == 13) {
         e.preventDefault();
         submitSearch();
       }
-    })
+    });
     jClearBtn.on("click", function (e) {
       e.preventDefault();
       clearSearch(jSavedContainer);
     });
     jSavedContainer.on("click", "button", function (e) {
       e.preventDefault();
-      console.log(e.currentTarget.dataset.latlon);
 
       let data = {
         name: e.currentTarget.textContent,
@@ -71,7 +70,6 @@ $(document).ready(function () {
         data.state = e.currentTarget.getAttribute("data-state");
       }
       drawMainDisplay(jAboutLocContainer, data, e.currentTarget.dataset.map);
-      console.log(data);
       let coordinates = e.currentTarget.dataset.latlon.split(",");
       getWeather(coordinates[0], coordinates[1]);
     });
@@ -141,7 +139,6 @@ $(document).ready(function () {
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
         // grab the specific data from the returned array
         let location = data.results[0];
         // save the latitude and longitude
@@ -170,16 +167,12 @@ $(document).ready(function () {
           location
         );
       })
-      .catch(function (err) {
-        console.log(err);
-      });
+      .catch(function (err) {});
   }
 
   function getWeather(lat, lon) {
     // This function gets the data on weather
     // parameters "lat" and "lon" are latitude and longitude
-    console.log(lat);
-    console.log(lon);
     // first get the weather
     let weatherCall =
       "https://api.openweathermap.org/data/3.0/onecall?&lat=" +
@@ -204,9 +197,7 @@ $(document).ready(function () {
         let offset = weatherData.timezone_offset / 3600;
         getSolunar(lat, lon, offset, dataCollect);
       })
-      .catch(function (err) {
-        console.log(err);
-      });
+      .catch(function (err) {});
   }
 
   function getSolunar(lat, lon, offset, results) {
@@ -265,11 +256,10 @@ function drawSavedSearches(jContainer) {
   let y;
   if (!x) return;
   else y = JSON.parse(x);
-  console.log(y);
+
   // —Create the button
   let jBtn;
   for (let i = 0; i < y.length; i++) {
-    console.log(y[i]);
     jBtn = $("<button>");
     jBtn.addClass("button button--small");
     jBtn.text(y[i].name);
@@ -286,8 +276,6 @@ function drawSavedSearches(jContainer) {
     }
     jContainer.append(jBtn);
   }
-
-  console.log("Drawing the saved searches");
 }
 
 function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
@@ -297,19 +285,16 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
   // parameter "map" is the url for the map tile
   // parameters "locationInfo" is the return from the latlon query
 
-  console.log("Drawing the confirmation modal");
-  console.log({ confirmationInfo });
-
   // collect and create some DOM nodes
   let jTitle = $("#confirmation-modal .mg-container h3");
   let jBody = $("#confirmation-modal .modal-content");
   let jList = $("<ul>");
   let jCounty = $("<li>");
-  jCounty.attr("id","county");
+  jCounty.attr("id", "county");
   let jState = $("<li>");
-  jState.attr("id","state");
+  jState.attr("id", "state");
   let jCountry = $("<li>");
-  jCountry.attr("id","country");
+  jCountry.attr("id", "country");
   let jMap = $("<img>");
   let jMapContainer = $("<div>");
   jMapContainer.attr("id", "modalMap");
@@ -347,8 +332,6 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
   // parameter "mainDisplayInfo" is the data to use
   // parameter "map" is the URL for the map tile
 
-  console.log("Drawing the main info panel");
-  console.log({ mainDisplayInfo });
   jContainer.empty();
   let jTitle = $("<h2>");
   let jMap = $("<img>");
@@ -363,9 +346,7 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
   jContainer.append(jList);
 
   jMap.attr("src", map);
-  // jTitle.addClass("mg-x12");
-  // jDiv.addClass("mg-x6");
-  // jList.addClass("mg-x6");
+
   jContainer.css("background grey");
 
   if (mainDisplayInfo.county) {
@@ -383,23 +364,12 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
     jLi1.text(mainDisplayInfo.country);
     jList.append(jLi1);
   }
-  
-  // jDiv.append(jMap);
-  // jContainer.append(jTitle);
-  // jContainer.append(jDiv);
-  // jContainer.append(jList);
-  // let mapimage = $("<img>");
-  // mapimage.attr("src", map);
-  // jContainer.append(mapimage);
 }
 
 function drawForecast(jContainer, forecastInfo) {
   // This function draws the forecast panel
   // parameter "jContainer" is the container to fill
   // parameter "forecastInfo" is the data needed to construct
-
-  console.log("Drawing the forecast");
-  console.log({ forecastInfo });
 
   jContainer.empty();
 
@@ -439,8 +409,8 @@ function drawForecast(jContainer, forecastInfo) {
     waningcrescent: "./assets/images/waning-crescent.png",
     quarter: "./assets/images/last-quarter.png",
     new: "./assets/images/new.png",
-    full: "./assets/images/full.png"
-  }
+    full: "./assets/images/full.png",
+  };
 
   // iterate over seven days, build cards, and insert
   let jCard, jTitle;
@@ -463,7 +433,6 @@ function drawForecast(jContainer, forecastInfo) {
 
     //add textcontent to elements created
     jTitle.text(dToday.format("MMM D"));
-    // console.log(jTitle.text());
     if (i == 0) jTitle.text("Today");
     else if (i == 1) jTitle.text("Tomorrow");
     jImageDiv = $("<div>");
@@ -474,13 +443,16 @@ function drawForecast(jContainer, forecastInfo) {
 
     let phase = forecastInfo.weather.daily[i].moon_phase;
     let moonImgSrc;
-    if(phase == 0 || phase == 1) moonImgSrc = "./assets/images/new.png";
-    else if (phase == .5) moonImgSrc = "./assets/images/full.png";
-    else if (phase == .25) moonImgSrc = "./assets/images/first-quarter.png";
-    else if (phase == .75) moonImgSrc = "./assets/images/last-quarter.png";
-    else if (phase > 0 && phase < .25) moonImgSrc = "./assets/images/waxing-crescent.png";
-    else if (phase > .25 && phase < .5) moonImgSrc = "./assets/images/waxing-gibbous.png";
-    else if (phase > .5 && phase < .75) moonImgSrc = "./assets/images/waning-gibbous.png";
+    if (phase == 0 || phase == 1) moonImgSrc = "./assets/images/new.png";
+    else if (phase == 0.5) moonImgSrc = "./assets/images/full.png";
+    else if (phase == 0.25) moonImgSrc = "./assets/images/first-quarter.png";
+    else if (phase == 0.75) moonImgSrc = "./assets/images/last-quarter.png";
+    else if (phase > 0 && phase < 0.25)
+      moonImgSrc = "./assets/images/waxing-crescent.png";
+    else if (phase > 0.25 && phase < 0.5)
+      moonImgSrc = "./assets/images/waxing-gibbous.png";
+    else if (phase > 0.5 && phase < 0.75)
+      moonImgSrc = "./assets/images/waning-gibbous.png";
     else moonImgSrc = "./assets/images/waning-crescent.png";
 
     moonImage.attr("src", moonImgSrc);
@@ -499,25 +471,21 @@ function drawForecast(jContainer, forecastInfo) {
     );
     jP1.append(js1);
     jP1.append(jsp1);
-    // jP1.text(
-    //   "Temp: " +
-    //     Math.round(forecastInfo.weather.daily[i].temp.min) +
-    //     " to " +
-    //     Math.round(forecastInfo.weather.daily[i].temp.max) +
-    //     "° F"
-    // );
-    // console.log(jP1.text());
-    jP2.text(
-      "Wind: " + Math.round(forecastInfo.weather.daily[i].wind_speed) + "MPH"
+    js2 = $("<strong>");
+    jsp2 = $("<span>");
+    js2.text("Wind: ");
+    jsp2.text(Math.round(forecastInfo.weather.daily[i].wind_speed) + "MPH");
+    jP2.append(js2);
+    jP2.append(jsp2);
+    js3 = $("<strong>");
+    jsp3 = $("<span>");
+    js3.text("Pressure: ");
+    jsp3.text(
+      Math.round(forecastInfo.weather.daily[i].pressure / 33.86387) + " inHg"
     );
-    jP3.text(
-      "Pressure: " +
-        Math.round(forecastInfo.weather.daily[i].pressure / 33.86387) +
-        " inHg"
-    );
+    jP3.append(js3);
+    jP3.append(jsp3);
     jP4.text("Solunar Periods");
-
-    
 
     let times = [];
     for (let ii = 0; ii < checkthese.length; ii++) {
@@ -532,8 +500,6 @@ function drawForecast(jContainer, forecastInfo) {
         times.push(obj);
       }
     }
-
-    console.log(times);
 
     times.sort(function (a, b) {
       let aTime = breakupTime(a.time);
@@ -551,8 +517,7 @@ function drawForecast(jContainer, forecastInfo) {
       let formatedTime = "";
       if (pieces[0] == 0) {
         formatedTime += "12";
-      }
-      else if (pieces[0] <= 12) {
+      } else if (pieces[0] <= 12) {
         formatedTime += pieces[0];
       } else {
         formatedTime += pieces[0] - 12;
@@ -570,19 +535,24 @@ function drawForecast(jContainer, forecastInfo) {
     jList.append(jP3);
     jCard.append(jList);
     jCard.append(jP4);
-    let jP, range;
+    let jP, range, jst, jsp;
     for (let ii = 0; ii < times.length; ii++) {
       jP = $("<p>");
-      range = convertthese[times[ii].name] + convertTime(times[ii].time);
+      jst = $("<strong>");
+      jsp = $("<span>");
+      jst.text(convertthese[times[ii].name]);
+
+      range = convertTime(times[ii].time);
       if (endings[times[ii].name]) {
         range += " to " + convertTime(times[ii].endtime);
       }
-      jP.text(range);
-      if(times[ii].name.toLowerCase().includes("moon")) jP.addClass("moon");
-      else if(times[ii].name.toLowerCase().includes("sun")) jP.addClass("sun");
+      jsp.text(range);
+      jP.append(jst);
+      jP.append(jsp);
+      if (times[ii].name.toLowerCase().includes("moon")) jP.addClass("moon");
+      else if (times[ii].name.toLowerCase().includes("sun")) jP.addClass("sun");
       jCard.append(jP);
     }
-
     jContainer.append(jCard);
   }
 }
@@ -590,14 +560,10 @@ function drawForecast(jContainer, forecastInfo) {
 /* ---- OTHER FUNCTIONS ---- */
 
 function saveSearch(jContainer, latlon, name, info, map) {
-  console.clear();
-  console.log("I'm saving the search!");
   // This function saves the user's confirmed search
   // parameter "jContainer" is the Saved Searches container
   // parameters "latlon" is the coordinate string
   // parameter "name" is the user's label for the button
-  // //
-  // console.log(info);
   if (!validateSearch(name)) {
     return;
   }
@@ -615,20 +581,12 @@ function saveSearch(jContainer, latlon, name, info, map) {
   if (info.state) {
     search.state = info.state;
   }
-  // console.log(search);
   let x = localStorage.getItem("SolunarSearch");
   let y;
   if (!x) y = [];
   else y = JSON.parse(x);
-  // console.log(typeof y);
   y.push(search);
-  console.log(y);
   localStorage.setItem("SolunarSearch", JSON.stringify(y));
-
-  // console.log("Saving the search");
-  // console.log({ latlon });
-  // console.log({ name });
-
   drawSavedSearches(jContainer);
 }
 function clearSearch(jContainer) {
@@ -636,14 +594,13 @@ function clearSearch(jContainer) {
   drawSavedSearches(jContainer);
 }
 function validateSearch(name) {
-  console.log(name);
   let x = localStorage.getItem("SolunarSearch");
-  console.log(x);
+
   if (!x) {
     return true;
   }
   let y = JSON.parse(x);
-  console.log(y);
+
   for (let i = 0; i < y.length; i++) {
     if (name.toLowerCase() == y[i].name.toLowerCase()) {
       return false;
