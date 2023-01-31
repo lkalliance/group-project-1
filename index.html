@@ -8,15 +8,44 @@
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css">
     <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css">
     <link rel="stylesheet" href="./assets/css/mgplus.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/spectre.css/dist/spectre.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/spectre.css/dist/spectre-exp.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/spectre.css/dist/spectre-icons.min.css"
+    />
+    <link rel="stylesheet" href="./assets/css/mgplus.css" />
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Aboreto&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/css/styles.css" />
     <title>Moon Fish</title>
   </head>
   <body>
-    <header class="row">
-      <img src="./assets/images/moonfish.png">
-      <h1 id="headerTitle">MoonFish</h1>      
-      <button data-toggle="modal" data-target="modal-1" id="aboutBtn" class="button button--small">About</button>
-    </header>
+      <header>
+        <h1>
+          Mo<img src="./assets/images/moonfish.png" alt="image not available" />n
+          Fish
+        </h1>
+        <button
+          data-toggle="modal"
+          data-target="modal-1"
+          class="button"
+        >
+          About
+        </button>
+      </header>
+    
     <main class="container">
       <div class="columns">
         <section id="search" class="column col-3 col-lg-4 col-sm-12 container">
@@ -74,19 +103,41 @@
           <span class="mg-close mg-right" data-action="close"></span>
         </h3>
         <div>
-          <p>
-            How Moon Fish came to be. Moon Fish was created using the solunar theory in combination with weather forecasts. Solunar theory hypothe 
-          </p>
-          <ul>
-            <li>
-              <strong>city:</strong>
-            </li>
-            <li>
-              <strong>latlon:</strong>
-              <li>
-                <strong>county:</strong>
+          <div class="mg-tabs" data-toggle="tabs" id="tabs-example">
+            <ul>
+              <li class="mg-tabs--item active" data-target="tab1">
+                <a href="#" class="secondary">About Us</a>
               </li>
-            </li>
+              <li class="mg-tabs--item" data-target="tab2">
+                <a href="#" class="button--outline">Solunar</a>
+              </li>
+              <li class="mg-tabs--item" data-target="tab3">
+                <a href="#" class="secondary">And More</a>
+              </ul>
+              <div class="mg-tabs--content" id="tab1">
+                Our team has many relatives who are fishers, whether casual or competitive. Several of them have special spots they love to fish and want to find new spots to fish. Along with the weather for that day and the coming week. But we had something special to add, the Solunar theory to help them know when is best to catch fish!
+              </div>
+              <div class="mg-tabs--content" id="tab2">
+                The Solunar theory is a hypothesis that fish and other animals
+                behave differently depending on the phases of the moon. It
+                originated in 1926 by John Alden Knight who compiled some fishing
+                folklore and made a list of factors that control and influence the
+                behavior of fish. He originally submitted 33 factors, only 3
+                factors were not rejected. The sun, the moon, and the tide, hence
+                the Solunar theory. Solunar tables are used mainly by fishermen
+                and hunters to determine what times of the month are best for
+                fishing and hunting.
+              </div>
+              <div class="mg-tabs--content" id="tab3">
+                Higher air pressure will cause fish to go into lower depths and in
+                cover, less likely to bite. While lower air pressure will make
+                fish more lethargic and more likely to hunt for food. Temperature
+                affects the metabolic rate of fish and thus, their energy balance
+                and drive for food. Wind speed will affect the choppiness of the
+                waves, thus changing what fish are currently out.
+              </div>
+              </div>
+            </div>
           </ul>
         </div>
       </div>
