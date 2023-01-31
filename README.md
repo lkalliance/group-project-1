@@ -1,73 +1,18 @@
-# group-project-1
-Moonfish group project
 
+# Moon Fish
 
-## UPDATE:
+## Description
+ How Moon Fish came to be. Moon Fish was created using the solunar theory in combination with weather forecasts. Solunar theory hypothesizes that fish move according to the location of the moon in comparison to their bodies. Knowing the time of the tides, sunrise , and sunsets can then help fisherman predict when fish are going to bite. For example during a full moon or new moon fish are more active. This is because the tides intervene. The theory is the large the tide the more active the fish are.
 
-OK, guys, here is how the code's workflow goes. Note that the complete "Search-to-result" flow is: get Location Data -> get Weather Report -> get Solunar Data
+ The user can find this information by typing the city name or zipcode in a search bar. A prompt will then appear to ask the user to confirm if this was the correct location. The user can then name that location which will then be saved for example Home or Favorite Fishing Spot. Once the area is confirmed a small map of the location becomes visible with the weather forecast and solunar periods for seven day forecast.
 
-**Initialize page**
-* Add listeners
-* Draw the saved searches
+## Usage
 
-**When the user does a search**
-* Get location data
-* Show confirmation modal. If the user says "No this isn't it," then end there. Otherwise...
-* Get weather data
-* Get solunar data
-* Do three things simultaneously: draw the main info panel, draw the forecast panel, save the search
+![Moon Fish](./assets/images/moonfish.png)
 
-If the user clicks on a saved search, it's the same thing, only we start at "Get Weather Data," because the saved search will have all the info we need from the first two items.
+## Credits
 
-### Code flow
-Each of those items above has its own function. So if you're going to work on "Save Search"...there is a function for saveSearch(). Each of those functions has everything it needs passed into it. If any of them are "draw" functions (drawSavedSearches, drawForecast, etc) I've passed in the container that you're drawing into as a parameter "jContainer". Right now, each of those functions console.logs all the info that's passed in. You can look at what you've got and go from there!
+Used images from the the assets file from UofM gitlab site.
+Used starter code from the UofM gitlab site.
 
-This will only be in place after the existing PR and one more PR is approved. Let's get going on that!
-
-
-
-
-## PREVIOUS:
-
-(1) API's: Clean up the logic, be able to write to a container, output: LEE
-7 days:
---Major Time
---Minor Time
---Daily forecast for each of seven days
-
-(2) Search SAFIA
---Logic to determine if this search has already been saved.
---Logic to pass those search results to (1)
---Decisions about what happens with the search field. Placeholder text? What happens to the search field after I click search?
-
-(3) About us modal: SAFIA
---Describe what Solunar is
---Describe us and why we're doing this project
-
-(4) Seach confirmation modal MICHAEL
---API writes some details to this, we ask user if this is the right place?
---Click yes or no.
---What happens if they click yes? If they click no?
---What happens if the user clicks the close box?
-
-(5) Main display area GABRIELLE
---Show map/Full info about location
---Show seven cards for the next seven days, and info
-
-(6) Design Local Storage LEE/SAFIA
-
-
-
-
-Syntax of variables
-
-jOneTwo (jQuery)
-dOneTwo (day.js)
-normalVariable (nothing special)
-
-Syntax of HTML id's and classes
-
-thisIsMyId
-class
-
-
+[Link to Deploy Application](https://lkalliance.github.io/Moon-Fish/)
