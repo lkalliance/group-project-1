@@ -334,20 +334,18 @@ function drawMainDisplay(jContainer, mainDisplayInfo, map) {
 
   jContainer.empty();
   let jTitle = $("<h2>");
+  jTitle.text(mainDisplayInfo.name);
   let jMap = $("<img>");
   let jList = $("<ul>");
   let jDiv = $("<div>");
-
   jDiv.addClass("clearfix");
-  jTitle.text(mainDisplayInfo.name);
+
   jContainer.append(jTitle);
   jDiv.append(jMap);
   jContainer.append(jDiv);
   jContainer.append(jList);
 
   jMap.attr("src", map);
-
-  jContainer.css("background grey");
 
   if (mainDisplayInfo.county) {
     let jLi1 = $("<li>");
