@@ -535,14 +535,20 @@ function drawForecast(jContainer, forecastInfo) {
     jList.append(jP3);
     jCard.append(jList);
     jCard.append(jP4);
-    let jP, range;
+    let jP, range, jst, jsp;
     for (let ii = 0; ii < times.length; ii++) {
       jP = $("<p>");
-      range = convertthese[times[ii].name] + convertTime(times[ii].time);
+      jst = $("<strong>");
+      jsp = $("<span>");
+      jst.text(convertthese[times[ii].name]);
+
+      range = convertTime(times[ii].time);
       if (endings[times[ii].name]) {
         range += " to " + convertTime(times[ii].endtime);
       }
-      jP.text(range);
+      jsp.text(range);
+      jP.append(jst);
+      jP.append(jsp);
       if (times[ii].name.toLowerCase().includes("moon")) jP.addClass("moon");
       else if (times[ii].name.toLowerCase().includes("sun")) jP.addClass("sun");
       jCard.append(jP);
