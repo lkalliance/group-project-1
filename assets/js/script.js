@@ -28,8 +28,8 @@ $(document).ready(function () {
 
   // VARIABLES FOR TESTING SETTINGS ON MAP SIZE
   let zoom = 10;
-  let height = 150;
-  let width = 150;
+  let height = 250;
+  let width = 250;
 
   initialize();
 
