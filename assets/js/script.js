@@ -269,6 +269,7 @@ function drawConfirmationModal(jContainer, jInput, confirmationInfo, map) {
 
   // create some DOM nodes, add some attributes
   let jTitle = $("#confirmation-modal .mg-container h3");
+  jTitle.text("");
   let jBody = $("#confirmation-modal .modal-content");
   let jList = $("<ul>");
   let jCounty = $("<li>");
