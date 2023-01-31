@@ -25,6 +25,10 @@ header button.button {
   border-color: rgb(91, 145, 199);
 }
 
+header img{
+  width: 60px;
+}
+
 #savedSearches .button.button--small {
   height: 2rem;
   font-size: 0.5em;
