@@ -1,28 +1,28 @@
+/* ---- TOP-LEVEL STYLES ---- */
+:root {
+  --header-blue: rgb(91, 145, 199);
+  --search-blue: rgb(59, 112, 165);
+  --forecast-blue: rgb(124, 179, 235);
+  --sun-background: rgb(253, 236, 160);
+  --sun-text: rgb(203, 155, 42);
+  --moon-background: rgb(225, 225, 225);
+  --moon-text: rgb(130, 130, 130);
+}
+
 a,
 a:active,
 a:hover {
   text-decoration: none;
 }
 
-.mg-tabs > ul > li.active,
-.mg-tabs > ul > li:hover {
-  border-color:rgb(59, 112, 165);
-  margin-top: 0;
-}
 
-div.mg-tabs div {
-  border-bottom: none;
-}
-
-.mg-modal--content {
-  width: 90%;
-}
+/* ---- HEADER ---- */
 
 header {
-  background-color: rgb(91, 145, 199);
-  margin-bottom: 10px;
   position: relative;
   height: 85px;
+  margin-bottom: 10px;
+  background-color: var(--header-blue);
 }
 
 header h1 {
@@ -31,9 +31,9 @@ header h1 {
 }
 
 header img {
-  width: 60px;
   position: relative;
   top: 11px;
+  width: 60px;
 }
 
 header button.button {
@@ -41,36 +41,13 @@ header button.button {
   right: 50px;
   top: 50%;
   margin-top: -19px;
-  background-color: rgb(91, 145, 199);
-  border-color: rgb(91, 145, 199);
+  background-color: var(--header-blue);
+  border-color: var(--header-blue);
 }
 
-header img{
-  width: 60px;
-}
 
-.mg-modal h3 {
-  margin-bottom: 10px;
-}
 
-#savedSearches .button.button--small {
-  margin-right: 4px;
-  margin-bottom: 4px;
-  background-color: rgb(59, 112, 165);
-  border-color: rgb(59, 112, 165);
-}
-
-#searchBtn.button.button--outline,
-#clearBtn.button.button--outline,
-#noBtn.button {
-  color: rgb(59, 112, 165);
-  border-color: rgb(59, 112, 165);
-}
-
-#yesBtn.button {
-  background-color: rgb(59, 112, 165);
-  border-color: rgb(59, 112, 165);
-}
+/* ---- SEARCH ---- */
 
 section#search {
   padding-left: 4px;
@@ -85,8 +62,77 @@ section#search {
 #searchName {
   font-size: 0.8em;
   border-radius: 5px;
-  border-color: rgb(62, 107, 151);
-  color: rgb(62, 107, 151);
+  border-color: var(--search-blue);
+  color: var(--search-blue);
+}
+
+#savedSearches .button.button--small {
+  margin-right: 4px;
+  margin-bottom: 4px;
+  background-color: var(--search-blue);
+  border-color: var(--search-blue);
+}
+
+#searchBtn.button.button--outline,
+#clearBtn.button.button--outline,
+#noBtn.button {
+  color: var(--search-blue);
+  border-color: var(--search-blue)
+}
+
+
+
+/* ---- CONFIRMATION MODAL AND MAIN DISPLAY STYLES ---- */
+
+#about {
+  margin-left: 4px;
+  margin-bottom: 15px;
+}
+
+#about h2,
+#confirmation-modal h3 {
+  font-weight: bold;
+  margin: 0 0 4px;
+}
+
+#about div,
+#modalMap {
+  float: left;
+  margin-right: 8px;
+}
+
+#about img,
+#modalMap img {
+  width: 150px;
+  height: 150px;
+  margin-right: 6px;
+}
+#about ul,
+#confirmation-modal ul {
+  list-style-type: none;
+}
+
+#about li,
+#confirmation-modal li {
+  margin: 0;
+}
+
+
+#confirmationContent.modal-content {
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#confirmation-modal label {
+  margin-top: 12px;
+  font-size: 0.9em;
+}
+
+
+#yesBtn.button {
+  background-color: var(--search-blue);
+  border-color: var(--search-blue);
 }
 
 #confirmation-modal li#suggestion {
@@ -100,129 +146,105 @@ section#search {
   display: none;
 }
 
+
+
+/* ---- FORECAST CARD STYLES ---- */
+
 .forecast-card {
   margin: 0 0 15px;
 }
 
 .forecast-card h4,
 .forecast-card h5 {
-  font-weight: bold;
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .forecast-card p {
+  margin: 0;
   font-size: 0.9em;
   line-height: 1.25em;
-  margin: 0;
 }
 .forecast-card ul {
   list-style-type: none;
+  margin: 0 0 8px;
   font-size: 0.9em;
   line-height: 1em;
-  margin: 0 0 8px;
 }
 .forecast-card li {
-  border-bottom: 1px solid #cccccc;
-  padding: 4px 0;
   margin: 0;
+  padding: 4px 0;
+  border-bottom: 1px solid #cccccc;
 }
 .forecast-card .icons {
-  background-color: rgb(124, 179, 235);
-  text-align: center;
-  margin-bottom: 5px;
-  line-height: 0.5em;
   position: relative;
   height: 50px;
+  margin-bottom: 5px;
+  background-color: var(--forecast-blue);
+  text-align: center;
+  line-height: 0.5em;
 }
+
 .forecast-card .icons img {
   display: inline-block;
-  height: 60px;
   position: absolute;
   top: -6px;
   right: 50%;
+  height: 60px;
 }
 .forecast-card .icons img.moon-icon {
-  height: 40px;
   top: 4px;
   left: 50%;
+  height: 40px;
 }
 
 .forecast-card .sun {
-  background-color: rgb(253, 236, 160);
-  color: rgb(203, 155, 42);
-  text-align: right;
-  font-size: 0.75em;
-  padding: 3px 6px;
   margin: 2px 0;
+  padding: 3px 6px;
+  background-color: var(--sun-backgreound);
+  color: var(--sun-text);
+  font-size: 0.75em;
+  text-align: right;
 }
 
 .forecast-card .moon {
-  background-color: rgb(225, 225, 225);
-  color: rgb(130, 130, 130);
-  text-align: right;
-  font-size: 0.75em;
-  padding: 3px 6px;
   margin: 2px 0;
-}
-#about {
-  margin-left: 4px;
-  margin-bottom: 15px;
-}
-
-#about img {
-  width: 150px;
-  height: 150px;
+  padding: 3px 6px;
+  background-color: var(--moon-background);
+  color: var(--moon-text);
+  font-size: 0.75em;
+  text-align: right;
 }
 
-#confirmationContent.modal-content {
-  border: none;
-  padding: 0;
-  margin: 0;
+
+
+/* ---- ABOUT MODAL STYLES ---- */
+
+.mg-modal h3 {
+  margin-bottom: 10px;
 }
 
-#confirmation-modal label {
-  margin-top: 12px;
-  font-size: 0.9em;
+.mg-modal--content {
+  width: 90%;
 }
 
-#modalMap {
-  float: left;
-  margin-right: 8px;
+div.mg-tabs div {
+  border-bottom: none;
 }
 
-#modalMap img {
-  width: 150px;
-  height: 150px;
+.mg-tabs > ul > li.active,
+.mg-tabs > ul > li:hover {
+  margin-top: 0;
+  border-color: var(--search-blue);
 }
 
-#about h2,
-#confirmation-modal h3 {
-  font-weight: bold;
-  margin: 0 0 4px;
-}
-#about div {
-  float: left;
-}
-#about img,
-#confirmation-modal img {
-  width: 150px;
-  margin-right: 6px;
-}
-#about ul,
-#confirmation-modal ul {
-  list-style-type: none;
-}
-#about li,
-#confirmation-modal li {
-  margin: 0;
-}
+
+
+
+/* ---- MEDIA QUERIES ---- */
 
 @media screen and (max-width: 480px) {
-  #display h2 {
-    font-size: 1.5em;
-    margin-top: 6px;
-  }
-
+  
   header {
     height: 55px;
   }
@@ -233,20 +255,25 @@ section#search {
   }
 
   header img {
-    width: 39px;
     position: relative;
     top: 7px;
+    width: 39px;
   }
 
   header button.button {
-    font-size: 0.5em;
-    height: 24px;
-    line-height: 24px;
     margin-top: -12px;
     right: 12px;
+    height: 24px;
+    font-size: 0.5em;
+    line-height: 24px;
+  }
+  
+  #display h2 {
+    margin-top: 6px;
+    font-size: 1.5em;
   }
 
-  forecast-card h4 {
+  .forecast-card h4 {
     font-size: 1em;
   }
 
@@ -262,25 +289,17 @@ section#search {
   }
 
   .forecast-card .icons {
-    background-color: rgb(58, 159, 199);
-    text-align: center;
-    margin-bottom: 5px;
-    line-height: 0.5em;
-    position: relative;
     height: 40px;
   }
   .forecast-card .icons img {
-    display: inline-block;
     height: 50px;
-    position: absolute;
     top: -6px;
-    right: 50%;
   }
   .forecast-card .icons img.moon-icon {
     height: 30px;
     top: 4px;
-    left: 50%;
   }
+
 }
 
 
