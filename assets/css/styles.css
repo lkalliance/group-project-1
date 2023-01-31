@@ -1,3 +1,23 @@
+a,
+a:active,
+a:hover {
+  text-decoration: none;
+}
+
+.mg-tabs > ul > li.active,
+.mg-tabs > ul > li:hover {
+  border-color:rgb(59, 112, 165);
+  margin-top: 0;
+}
+
+div.mg-tabs div {
+  border-bottom: none;
+}
+
+.mg-modal--content {
+  width: 90%;
+}
+
 header {
   background-color: rgb(91, 145, 199);
   margin-bottom: 10px;
@@ -27,6 +47,10 @@ header button.button {
 
 header img{
   width: 60px;
+}
+
+.mg-modal h3 {
+  margin-bottom: 10px;
 }
 
 #savedSearches .button.button--small {
@@ -138,6 +162,11 @@ section#search {
   margin-bottom: 15px;
 }
 
+#about img {
+  width: 150px;
+  height: 150px;
+}
+
 #confirmationContent.modal-content {
   border: none;
   padding: 0;
@@ -220,6 +249,8 @@ section#search {
     height: 100px;
   }
 
+  
+
   .forecast-card .icons {
     background-color: rgb(58, 159, 199);
     text-align: center;
@@ -239,5 +270,23 @@ section#search {
     height: 30px;
     top: 4px;
     left: 50%;
+  }
+}
+
+
+@media screen and (max-height: 400px) {
+
+  .mg-modal--content {
+    width: 100%;
+  }
+
+  #about img,
+  #modalMap img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  #modal-1 > .mg-modal--content {
+    font-size: .8em;
   }
 }
