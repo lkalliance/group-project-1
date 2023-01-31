@@ -8,11 +8,9 @@
 
  You can access the application at [this location](https://lkalliance.github.io/Moon-Fish/).
 
- <img src="./assets/images/moon-fish-screenshot.png" width=500>
+ <img src="./assets/images/moon-fish-screenshot.png" width=500 />
 
 ## Usage
-
-<img src="./assets/images/forecast-screenshot.png" style="float: right; margin-left: 12px; margin-bottom: 12px;">
 
 On the page's initial load, the user is offered a "Search" box. The user may enter any combination of things to search on: cities, states, counties, points of interest, countries, even zip codes. Upon submitting the search, the application presents a "confirmation modal", which displays a map tile and text information about the search result. If this is the correct location, the user can enter a label to use instead of the default city name, and the search will be saved with that label. Alternately, the user can indicate if this is not the correct search result, and search again.
 
@@ -23,6 +21,8 @@ Whether the user has done a new search or clicked on one of the saved locations 
 * The temperature range, high wind speed and barometric pressure
 * The two major and two minor "Solunar Periods": times of the day where the position of the moon has the most positive effect on fishing
 * The sunrise, sunset, moonrise and moonset for the day
+
+<img src="./assets/images/forecast-screenshot.png" />
 
 At any time the user can start a new search, click on a saved search, or clear all the saved searches.
 
