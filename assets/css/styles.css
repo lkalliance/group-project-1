@@ -30,9 +30,6 @@ header img{
 }
 
 #savedSearches .button.button--small {
-  height: 2rem;
-  font-size: 0.5em;
-  line-height: 0.6em;
   margin-right: 4px;
   margin-bottom: 4px;
   background-color: rgb(59, 112, 165);
