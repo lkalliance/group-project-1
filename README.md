@@ -46,7 +46,7 @@ This site was built using the [jQuery Javascript library](https://jquery.com), t
 
 Data comes from public APIs at [Geoapify.com](https://www.geoapify.com), [OpenWeatherMaps.org](https://openweathermap.org) and [Solunar.org](https://solunar.org).
 
-Logo design by Rachel Klusky.
+Logo design by Rachel Klusky. Moon phase icons from [Icons8.com](https://icons8.com/icons/set/moon-phases)
 
 ## License
 
