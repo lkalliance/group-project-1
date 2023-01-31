@@ -201,7 +201,7 @@ section#search {
 .forecast-card .sun {
   margin: 2px 0;
   padding: 3px 6px;
-  background-color: var(--sun-backgreound);
+  background-color: var(--sun-background);
   color: var(--sun-text);
   font-size: 0.75em;
   text-align: right;
