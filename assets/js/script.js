@@ -20,7 +20,7 @@ $(document).ready(function () {
   const jSearchBtn = $("#searchBtn");
 
   // API KEYS
-  const geoAPI = "&apiKey=137d269d6c174878a5fba2984b37e8d3";
+  const geoAPI = "&apiKey=24a91ada014a49b1b1913d65b663fe0f";
   const weatherAPI = "&appid=7897ccda0965301a098fbfd75fe1b4aa";
 
   // VARIABLES WE'LL NEED IN THIS SCOPE
